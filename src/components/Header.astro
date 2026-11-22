@@ -1,0 +1,15 @@
+---
+import { site } from '@/config/site';
+---
+<header class="sticky top-0 z-40 border-b border-line/60 bg-surface/80 backdrop-blur">
+  <nav class="container-page flex h-16 items-center justify-between" aria-label="Main">
+    <a href="/" class="flex items-center gap-2 font-bold text-lg" aria-label={`${site.name} home`}>
+      <img src="/favicon.svg" alt="" width="28" height="28" />
+      {site.name}
+    </a>
+    <ul class="hidden items-center gap-8 text-sm font-medium text-ink-muted md:flex">
+      {site.nav.map((n) => <li><a href={n.href} class="hover:text-ink">{n.label}</a></li>)}
+    </ul>
+    <a href={site.cta.href} class="btn-primary px-4! py-2! text-sm">{site.cta.label}</a>
+  </nav>
+</header>

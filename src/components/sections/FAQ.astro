@@ -1,0 +1,24 @@
+---
+// Exported so the page can emit FAQPage JSON-LD from the same data.
+export const faqs = [
+  { q: 'Is there a free trial?', a: 'Yes. Every plan includes a 14-day free trial, no credit card required.' },
+  { q: 'Which channels are supported?', a: 'Email, website live chat, WhatsApp Business, Instagram and Facebook Messenger.' },
+  { q: 'Can I import my existing tickets?', a: 'Yes. We import from most help desks via CSV or API.' },
+];
+---
+<section id="faq" class="section bg-surface-alt" aria-labelledby="faq-title">
+  <div class="container-page max-w-3xl">
+    <h2 id="faq-title" class="h2 text-center">Frequently asked questions</h2>
+    <div class="mt-10 divide-y divide-line rounded-(--radius-card) border border-line bg-surface">
+      {faqs.map((f) => (
+        <details class="group p-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-semibold">
+            {f.q}
+            <span aria-hidden="true" class="ml-4 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-3 text-ink-muted">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

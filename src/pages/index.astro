@@ -1,0 +1,21 @@
+---
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Features from '@/components/sections/Features.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import FAQ, { faqs } from '@/components/sections/FAQ.astro';
+import CTA from '@/components/sections/CTA.astro';
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base jsonLd={faqLd}>
+  <Hero />
+  <Features />
+  <HowItWorks />
+  <FAQ />
+  <CTA />
+</Base>

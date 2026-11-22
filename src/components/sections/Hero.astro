@@ -1,0 +1,16 @@
+---
+import { site } from '@/config/site';
+---
+<section class="relative overflow-hidden" aria-labelledby="hero-title">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[32rem] bg-[radial-gradient(60%_60%_at_50%_0%,var(--color-brand-100),transparent)]"></div>
+  <div class="container-page section text-center">
+    <p class="eyebrow">Customer messaging platform</p>
+    <h1 id="hero-title" class="h1 mx-auto mt-4 max-w-3xl">{site.tagline}</h1>
+    <p class="lead mx-auto mt-6 max-w-2xl">{site.description}</p>
+    <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a href={site.cta.href} class="btn-primary">{site.cta.label}</a>
+      <a href="#how" class="btn-ghost">See how it works →</a>
+    </div>
+    <p class="mt-4 text-sm text-ink-muted">No credit card required · 14-day free trial</p>
+  </div>
+</section>

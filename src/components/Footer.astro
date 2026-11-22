@@ -1,0 +1,13 @@
+---
+import { site } from '@/config/site';
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-line bg-surface-alt">
+  <div class="container-page flex flex-col gap-4 py-10 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+    <p>&copy; {year} {site.name}. All rights reserved.</p>
+    <ul class="flex gap-6">
+      <li><a href="/privacy" class="hover:text-ink">Privacy</a></li>
+      <li><a href="/terms" class="hover:text-ink">Terms</a></li>
+    </ul>
+  </div>
+</footer>
