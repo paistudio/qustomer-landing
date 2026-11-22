@@ -4,6 +4,7 @@ Clean, trustworthy B2B SaaS. Lots of whitespace, one accent color, content first
 Tokens live in `src/styles/global.css` (`@theme`). This file is the spec; CSS is the implementation. Keep both in sync.
 
 ## Principles
+0. **No slop** — follow `.claude/skills/kill-slop`. If another SaaS could swap its logo onto this page unchanged, it isn't designed yet.
 1. **Clarity over decoration** — every element earns its place.
 2. **One accent** — brand indigo marks the action. Never more than one primary CTA per viewport.
 3. **Fast is a feature** — no decorative JS, no heavy imagery above the fold.

@@ -5,7 +5,7 @@ description: Build or edit a landing page section (hero, features, pricing, test
 
 # Build a landing section
 
-Read `DESIGN.md` tokens first. Follow steps in order.
+Read `DESIGN.md` tokens and `kill-slop` bans first. Follow steps in order.
 
 ## 1. File
 - `src/components/sections/<Name>.astro`, PascalCase. One section per file.
@@ -25,6 +25,7 @@ Read `DESIGN.md` tokens first. Follow steps in order.
   </div>
 </section>
 ```
+- This skeleton is a starting point only. Don't repeat it on every section: vary alignment and layout (split, bento, full-bleed) per `kill-slop`. Use `eyebrow` on at most 2 sections.
 - Alternate `bg-surface-alt` on every other section.
 - Exactly one `<h1>` per page (Hero). Sections use `<h2>`, cards `<h3>`.
 - Lists of things → `<ul>/<ol>`, not div soup.
@@ -48,4 +49,4 @@ Read `DESIGN.md` tokens first. Follow steps in order.
 - Internal links use descriptive text, never "click here".
 
 ## 6. Verify
-`npm run build` must pass with 0 errors/warnings. Then run the `seo-perf-audit` skill.
+`npm run build` must pass with 0 errors/warnings. Run the `kill-slop` checklist, then the `seo-perf-audit` skill.

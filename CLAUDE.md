@@ -22,10 +22,10 @@ Use `caveman` skill for chat (terse, no filler). Code, page copy, docs, commits 
 - `src/components/SEO.astro` — title, meta, canonical, OG/Twitter, JSON-LD
 - `src/components/sections/*` — one section per file
 - `src/pages/` — `index`, `404`, `robots.txt.ts`
-- `.claude/skills/` — `caveman`, `landing-section`, `seo-perf-audit`
+- `.claude/skills/` — `caveman`, `landing-section`, `kill-slop`, `seo-perf-audit`
 
 ## Rules
-1. Read `DESIGN.md` before any UI work. Use the `landing-section` skill for sections.
+1. Read `DESIGN.md` before any UI work. Use the `landing-section` skill for sections, then the `kill-slop` checklist before finishing.
 2. Tokens only — no hex/rgb or arbitrary color values in components.
 3. No client JS unless native HTML/CSS can't do it. Islands: `client:visible`/`client:idle` only. Ask before adding any UI framework.
 4. Images via `astro:assets` `<Image>` from `src/assets/`, always `alt` + dimensions.
