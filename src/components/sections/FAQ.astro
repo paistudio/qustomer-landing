@@ -1,23 +1,38 @@
 ---
 import type { Copy } from '@/i18n/en';
+import { bookPath, contactHref } from '@/config/site';
 
 interface Props { t: Copy }
 const { t } = Astro.props;
 const f = t.faq;
 ---
 <section id="faq" class="section" aria-labelledby="faq-title">
-  <div class="container-page grid gap-10 lg:grid-cols-12">
-    <h2 id="faq-title" class="h2 lg:col-span-4">{f.h2}</h2>
-    <div class="divide-y divide-line border-y border-line lg:col-span-8">
+  <div class="container-page grid gap-12 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <h2 id="faq-title" class="h2">{f.h2}</h2>
+      <p class="mt-5 max-w-xs text-lg text-ink-muted text-pretty">{f.sub}</p>
+      <a href={contactHref} class="btn-ghost mt-8 min-h-10! px-4! py-2! text-sm!">{f.ask}</a>
+    </div>
+
+    <!-- Each question is its own soft card; native <details>, no JS. -->
+    <div class="space-y-3 lg:col-span-8">
       {f.items.map((it) => (
-        <details class="group py-5">
-          <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
+        <details class="group rounded-2xl bg-surface-alt px-6 py-5 sm:px-7">
+          <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 font-display text-lg sm:text-xl [&::-webkit-details-marker]:hidden">
             {it.q}
-            <span class="text-2xl leading-none text-brand-600 transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            <span class="grid size-9 shrink-0 place-items-center rounded-full bg-surface shadow-(--shadow-card) transition-transform group-open:rotate-180" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+            </span>
           </summary>
-          <p class="mt-3 max-w-2xl text-ink-muted">{it.a}</p>
+          <p class="mt-4 max-w-2xl pr-12 leading-relaxed text-ink-muted">{it.a}</p>
         </details>
       ))}
+      <a href={bookPath(t.lang)} class="group flex min-h-11 items-center justify-between gap-6 rounded-2xl bg-surface-alt px-6 py-5 font-display text-lg text-ink-muted transition-colors hover:text-ink sm:px-7 sm:text-xl">
+        {f.talk}
+        <span class="grid size-9 shrink-0 place-items-center rounded-full bg-surface shadow-(--shadow-card)" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+        </span>
+      </a>
     </div>
   </div>
 </section>

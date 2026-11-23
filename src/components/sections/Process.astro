@@ -8,55 +8,58 @@ const p = t.process;
 <section id="process" class="section" aria-labelledby="process-title">
   <div class="container-page">
     <!-- Header: statement left, supporting line right. Steps run horizontally below. -->
-    <div class="grid items-end gap-x-16 gap-y-6 lg:grid-cols-12">
+    <div class="grid items-end gap-x-16 gap-y-8 lg:grid-cols-12">
       <div class="lg:col-span-8">
-        <p class="font-display text-base text-ink-muted">{p.eyebrow}</p>
-        <h2 id="process-title" class="h2 mt-4 max-w-3xl sm:text-5xl lg:text-6xl">{p.h2}</h2>
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h2 id="process-title" class="h2 mt-5 max-w-3xl">{p.h2}</h2>
       </div>
-      <p class="text-lg text-ink-muted text-pretty lg:col-span-4 lg:pb-2">{p.lead}</p>
+      <p class="lead lg:col-span-4 lg:pb-2">{p.lead}</p>
     </div>
 
-    <ol class="mt-16 grid gap-x-8 gap-y-12 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
+    <ol class="mt-20 grid gap-x-10 gap-y-16 sm:mt-24 sm:grid-cols-2 lg:grid-cols-4">
       {p.steps.map((s, i) => (
-        <li class="border-t border-ink pt-6">
+        <li class="border-t border-ink pt-8">
           <span class="font-display text-lg text-ink-muted tabular-nums" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-          <h3 class="mt-8 font-display text-2xl tracking-tight sm:text-3xl">{s.t}</h3>
-          <p class="mt-3 text-lg text-ink-muted text-pretty">{s.d}</p>
-          <span class="mt-6 inline-flex rounded-full border border-line px-3 py-1 text-sm font-semibold">{s.tag}</span>
+          <h3 class="mt-10 font-display text-2xl tracking-tight">{s.t}</h3>
+          <p class="mt-4 leading-relaxed text-ink-muted text-pretty">{s.d}</p>
+          <span class="mt-8 inline-flex rounded-full border border-line px-3.5 py-1.5 text-sm font-semibold">{s.tag}</span>
         </li>
       ))}
     </ol>
 
-    <!-- Who does what: two halves of one panel, paired with a "+". -->
+    <!-- Who does what: two halves paired with a "+". -->
     <div class="mt-24 sm:mt-32">
-      <h3 class="font-display text-3xl sm:text-4xl">{p.rolesTitle}</h3>
-      <div class="relative mt-8 grid overflow-hidden rounded-3xl border border-line bg-surface-alt md:grid-cols-2">
+      <h3 class="font-display text-3xl">{p.rolesTitle}</h3>
+      <div class="relative mt-12 grid gap-x-16 gap-y-14 md:grid-cols-2">
         {[p.we, p.you].map((col, i) => (
-          <div class={`p-7 sm:p-10 ${i === 1 ? 'border-t border-line md:border-t-0 md:border-l' : ''}`}>
-            <span class={`inline-flex rounded-full px-4 py-1.5 font-display text-base ${i === 0 ? 'bg-ink text-white' : 'border border-ink text-ink'}`}>{col.t}</span>
-            <ul class="mt-8 space-y-5">
+          <div class={i === 0 ? 'md:pr-8' : 'md:pl-8'}>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
+              <span class={`inline-flex rounded-full px-5 py-2 font-display text-xl ${i === 0 ? 'bg-ink text-white' : 'bg-surface-alt text-ink'}`}>{col.t}</span>
+              <span class="text-ink-muted">{col.sub}</span>
+            </div>
+            <ul class="mt-10 space-y-6">
               {col.items.map((x) => (
-                <li class="flex items-start gap-3">
-                  <span class={`mt-0.5 grid size-6 shrink-0 place-items-center rounded-full ${i === 0 ? 'bg-ink text-white' : 'border border-ink text-ink'}`} aria-hidden="true">
+                <li class="flex items-start gap-4">
+                  <span class={`mt-0.5 grid size-6 shrink-0 place-items-center rounded-full ${i === 0 ? 'bg-brand-600 text-white' : 'bg-brand-50 text-brand-600'}`} aria-hidden="true">
                     <svg viewBox="0 0 24 24" class="size-3.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10" /></svg>
                   </span>
-                  <span class="text-lg leading-snug">{x}</span>
+                  <span class="text-lg leading-normal">{x}</span>
                 </li>
               ))}
             </ul>
           </div>
         ))}
-        <span class="absolute top-1/2 left-1/2 hidden size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-line bg-surface font-display text-xl md:grid" aria-hidden="true">+</span>
+        <span class="absolute top-1/2 left-1/2 hidden size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-surface-alt font-display text-xl md:grid" aria-hidden="true">+</span>
       </div>
     </div>
 
-    <!-- What we shape: a spec-sheet grid. -->
+    <!-- What we shape: tinted tiles. -->
     <div class="mt-24 sm:mt-32">
-      <h3 class="font-display text-3xl sm:text-4xl">{p.tailorTitle}</h3>
-      <ul class="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lg:grid-cols-4">
+      <h3 class="font-display text-3xl">{p.tailorTitle}</h3>
+      <ul class="mt-12 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
         {p.tailor.map((x, i) => (
-          <li class="flex min-h-32 flex-col justify-between bg-surface p-5 sm:p-6">
-            <span class="text-sm text-ink-muted tabular-nums" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <li class="flex min-h-36 flex-col justify-between rounded-2xl bg-surface-alt p-6 sm:p-7">
+            <span class="font-display text-sm text-ink-muted tabular-nums" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <span class="font-display text-xl leading-snug">{x}</span>
           </li>
         ))}

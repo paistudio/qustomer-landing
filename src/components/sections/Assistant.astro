@@ -10,15 +10,15 @@ const ask = t.channels.anchor; // the traveler keeps the customer's message here
   <div class="container-page grid items-center gap-12 lg:grid-cols-12">
     <div class="lg:col-span-7">
       <h2 id="assistant-title" class="h2 max-w-xl">{a.h2}</h2>
-      <ol class="mt-10 divide-y divide-line border-y border-line">
+      <ol class="mt-12 divide-y divide-line border-y border-line">
         {a.items.map((item, i) => (
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-2 py-4">
+          <li class="grid grid-cols-[2.5rem_1fr] gap-x-2 py-5">
             <span class="text-sm font-semibold text-brand-600 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
             <p><span class="font-semibold">{item.t}.</span> <span class="text-ink-muted">{item.d}</span></p>
           </li>
         ))}
       </ol>
-      <p class="mt-8 max-w-xl border-l-2 border-brand-500 pl-4 text-ink-muted">{a.note}</p>
+      <p class="mt-10 max-w-xl border-l-2 border-brand-500 pl-4 text-ink-muted">{a.note}</p>
     </div>
 
     <!-- Lane (right): the traveler bubble is the assistant's instant reply. -->
@@ -34,7 +34,7 @@ const ask = t.channels.anchor; // the traveler keeps the customer's message here
       ></div>
       <!-- Reply: the 3D scene pops a mint bubble at [data-reply-anchor]; this flat copy shows only when the scene is off. -->
       <div class="pop absolute right-6 bottom-20 max-w-[78%] rounded-3xl rounded-br-md bg-mint-300 px-5 py-3 shadow-(--shadow-card) in-data-[scene=on]:invisible" style="--i:2">
-        <p class="text-[0.65rem] font-semibold tracking-wide text-ink-muted uppercase">{a.anchor.tag}</p>
+        <p class="text-xs font-semibold tracking-wide text-ink-muted uppercase">{a.anchor.tag}</p>
         <p class="mt-0.5 font-semibold">{a.anchor.msg}</p>
       </div>
       <div

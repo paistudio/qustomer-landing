@@ -104,8 +104,8 @@ export const en = {
       { t: 'Keep improving', d: 'We review what customers ask and adjust as you change.', tag: 'Regular reviews' },
     ],
     rolesTitle: 'Who does what',
-    we: { t: 'We', items: ['Set up channels, answers and booking rules', 'Run the chats day to day', 'One fixed contact for you', 'Regular reviews, steady improvement'] },
-    you: { t: 'You', items: ['Approve answers and offers', 'Handle price talks, close the sale', 'Keep your customer relationship', 'Tell us when things change'] },
+    we: { t: 'We', sub: 'Handled by our team', items: ['Set up channels, answers and booking rules', 'Run the chats day to day', 'One fixed contact for you', 'Regular reviews, steady improvement'] },
+    you: { t: 'You', sub: 'Stays with you', items: ['Approve answers and offers', 'Handle price talks, close the sale', 'Keep your customer relationship', 'Tell us when things change'] },
     tailorTitle: 'What we shape to your business',
     tailor: ['Services and prices', 'Opening and quiet hours', 'Booking and calendar rules', 'Tone and language', 'Follow-up timing', 'Offers and promos', 'Pipeline stages', 'Handover rules'],
   },
@@ -129,6 +129,9 @@ export const en = {
 
   faq: {
     h2: 'Questions we get asked',
+    sub: 'The short answers are here. For anything else, ask us.',
+    ask: 'Ask a question',
+    talk: 'Prefer to talk? Book a discovery call',
     items: [
       { q: 'Is Qustomer software or a service?', a: 'A service. You do not buy software or learn a new tool. We set up the system for your business and run your customer conversations with you.' },
       { q: 'Can you fit this to our business process?', a: 'Yes, that is the job. We start from how you already work and set up the channels, answers, schedules and handover rules to match. If something does not fit, we change the setup, not your process.' },

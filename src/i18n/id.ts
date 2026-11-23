@@ -104,8 +104,8 @@ export const id: Copy = {
       { t: 'Terus disempurnakan', d: 'Kami tinjau pertanyaan pelanggan dan menyesuaikan saat bisnis berubah.', tag: 'Review rutin' },
     ],
     rolesTitle: 'Siapa mengerjakan apa',
-    we: { t: 'Kami', items: ['Menyiapkan channel, jawaban, aturan booking', 'Menjalankan chat sehari-hari', 'Satu kontak tetap untuk Anda', 'Review rutin, perbaikan berkelanjutan'] },
-    you: { t: 'Anda', items: ['Menyetujui jawaban dan penawaran', 'Menangani harga, menutup penjualan', 'Menjaga hubungan dengan pelanggan', 'Memberi tahu kami saat ada perubahan'] },
+    we: { t: 'Kami', sub: 'Ditangani tim kami', items: ['Menyiapkan channel, jawaban, aturan booking', 'Menjalankan chat sehari-hari', 'Satu kontak tetap untuk Anda', 'Review rutin, perbaikan berkelanjutan'] },
+    you: { t: 'Anda', sub: 'Tetap di tangan Anda', items: ['Menyetujui jawaban dan penawaran', 'Menangani harga, menutup penjualan', 'Menjaga hubungan dengan pelanggan', 'Memberi tahu kami saat ada perubahan'] },
     tailorTitle: 'Yang kami sesuaikan dengan bisnis Anda',
     tailor: ['Layanan dan harga', 'Jam buka dan jam tenang', 'Aturan booking dan kalender', 'Gaya dan bahasa', 'Waktu follow-up', 'Penawaran dan promo', 'Tahap pipeline', 'Aturan serah terima'],
   },
@@ -129,6 +129,9 @@ export const id: Copy = {
 
   faq: {
     h2: 'Pertanyaan yang sering kami terima',
+    sub: 'Jawaban singkatnya ada di sini. Untuk hal lain, tanyakan langsung kepada kami.',
+    ask: 'Ajukan pertanyaan',
+    talk: 'Lebih suka bicara? Jadwalkan discovery call',
     items: [
       { q: 'Qustomer itu software atau layanan?', a: 'Layanan. Anda tidak membeli software atau belajar tool baru. Kami menyiapkan sistem untuk bisnis Anda dan menjalankan percakapan pelanggan bersama Anda.' },
       { q: 'Bisakah disesuaikan dengan proses bisnis kami?', a: 'Bisa, itulah tugas kami. Kami mulai dari cara Anda bekerja saat ini, lalu menyiapkan channel, jawaban, jadwal, dan aturan serah terima agar cocok. Jika ada yang tidak pas, kami ubah pengaturannya, bukan proses Anda.' },

@@ -15,10 +15,10 @@ const sides = ['customer', 'assistant', 'customer', 'assistant', 'assistant'];
   <div class="container-page">
     <div class="max-w-2xl">
       <h2 id="how-title" class="h2">{f.h2}</h2>
-      <p class="lead mt-4">{f.lead}</p>
+      <p class="lead mt-5">{f.lead}</p>
     </div>
 
-    <ol class="mt-12 lg:mt-16">
+    <ol class="mt-16 lg:mt-20">
       {f.stages.map((s, i) => {
         const w = widths[i] ?? 100;
         const next = widths[i + 1] ?? w - 14;
@@ -39,10 +39,10 @@ const sides = ['customer', 'assistant', 'customer', 'assistant', 'assistant'];
                 style={`width:${w}%;clip-path:polygon(0 0,100% 0,${100 - inset}% 100%,${inset}% 100%);background:color-mix(in oklab,var(--color-brand-100) ${100 - mix}%,var(--color-mint-300) ${mix}%)`}
               ></div>
             </div>
-            <div class="py-5 text-ink-muted transition-colors group-data-[state=active]:text-ink lg:col-span-7 lg:py-8">
+            <div class="py-5 text-ink-muted transition-colors group-data-[state=active]:text-ink lg:col-span-7 lg:py-10">
               <p class="text-sm font-semibold text-brand-600 tabular-nums">{f.step} {i + 1}</p>
-              <h3 class="mt-1 text-2xl font-bold tracking-tight text-ink">{s.t}</h3>
-              <p class="mt-2 max-w-md">{s.d}</p>
+              <h3 class="mt-2 text-2xl font-bold tracking-tight text-ink">{s.t}</h3>
+              <p class="mt-3 max-w-md leading-relaxed">{s.d}</p>
             </div>
           </li>
         );

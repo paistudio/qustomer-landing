@@ -11,12 +11,12 @@ const h = t.hero;
     <div class="lg:col-span-7">
       <p class="eyebrow">{h.eyebrow}</p>
       <h1 id="hero-title" class="h1 mt-4 text-4xl! leading-[1.05] sm:text-6xl! lg:text-7xl!">{h.h1}</h1>
-      <p class="lead mt-6 max-w-xl">{h.lead}</p>
-      <div class="mt-8 flex flex-wrap items-center gap-3">
+      <p class="lead mt-7 max-w-xl">{h.lead}</p>
+      <div class="mt-10 flex flex-wrap items-center gap-3">
         <a href={bookPath(t.lang)} class="btn-primary">{h.primary}</a>
         <a href="#process" class="btn-ghost">{h.secondary}</a>
       </div>
-      <ul class="mt-10 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-base font-semibold text-ink-muted">
+      <ul class="mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-2 text-base font-semibold text-ink-muted">
         {h.differ.map((d, i) => i === h.differ.length - 1 ? (
           <li class="relative text-brand-600">
             <span>{d}</span>

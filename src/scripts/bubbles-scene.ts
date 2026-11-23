@@ -19,6 +19,8 @@ import {
   PlaneGeometry,
   Scene,
   Shape,
+  Sprite,
+  SpriteMaterial,
   SRGBColorSpace,
   Vector3,
   WebGLRenderer,
@@ -94,6 +96,78 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
   return lines.slice(0, 3);
 }
 
+/** Depth of field: the traveler sits on the focal plane (z = FOCUS_Z). Cloud bubbles blur with their distance from
+ *  it and with their size, like a wide aperture. Static per bubble, so the blur is baked into a sprite once. */
+const FOCUS_Z = 90;
+const BLUR_MAX = 16;
+const BLUR_MIN = 1.5; // below this a bubble stays a sharp 3D mesh
+const blurFor = (z: number, scale: number) => Math.min(BLUR_MAX, Math.abs(z - FOCUS_Z) * (0.3 + scale) * 0.065);
+
+/** A blurred, flat stand-in for a bubble: same outline, colour and text, drawn to a canvas and blurred once. */
+function makeBlurSprite(side: 1 | -1, pal: Palette, label: HTMLCanvasElement, blur: number): { sprite: Sprite; w: number; h: number } {
+  const S = 1.5; // texture pixels per world unit
+  const pad = Math.ceil(blur * 3) + 16;
+  const w = W + pad * 2;
+  const h = H + 18 + pad * 2;
+  const sharp = document.createElement('canvas');
+  sharp.width = Math.ceil(w * S);
+  sharp.height = Math.ceil(h * S);
+  const g = sharp.getContext('2d');
+  const out = document.createElement('canvas');
+  out.width = sharp.width;
+  out.height = sharp.height;
+  const o = out.getContext('2d');
+  if (!g || !o) return { sprite: new Sprite(), w, h };
+
+  g.scale(S, S);
+  g.translate(w / 2, h / 2);
+  // The body's rectangle sits 9 units above the label centre (the tail pulls the 3D bounding box down).
+  g.save();
+  g.translate(0, -9);
+  const x = -W / 2;
+  const X = (v: number) => v * side;
+  g.beginPath();
+  g.moveTo(X(x + R + 18), H / 2);
+  g.lineTo(X(x + W - R), H / 2);
+  g.quadraticCurveTo(X(x + W), H / 2, X(x + W), H / 2 - R);
+  g.lineTo(X(x + W), -H / 2 + R);
+  g.quadraticCurveTo(X(x + W), -H / 2, X(x + W - R), -H / 2);
+  g.lineTo(X(x + R), -H / 2);
+  g.quadraticCurveTo(X(x), -H / 2, X(x), -H / 2 + R);
+  g.lineTo(X(x), H / 2 + 18);
+  g.quadraticCurveTo(X(x + 14), H / 2 + 6, X(x + R + 18), H / 2);
+  g.closePath();
+  const grad = g.createLinearGradient(0, -H / 2, 0, H / 2 + 18);
+  grad.addColorStop(0, pal.body.clone().lerp(new Color(1, 1, 1), 0.14).getStyle());
+  grad.addColorStop(1, pal.body.clone().lerp(new Color(0, 0, 0), 0.08).getStyle());
+  g.fillStyle = grad;
+  g.fill();
+  g.lineWidth = 3;
+  g.strokeStyle = 'rgba(255,255,255,0.4)';
+  g.stroke();
+  g.restore();
+  const lw = W - 20;
+  g.drawImage(label, -lw / 2, -(lw * (228 / 512)) / 2, lw, lw * (228 / 512));
+
+  if (typeof o.filter === 'string') {
+    o.filter = `blur(${blur * S}px)`;
+    o.drawImage(sharp, 0, 0);
+  } else {
+    // No canvas filter (older Safari): down-scale then up-scale for a soft blur.
+    const f = Math.max(2, Math.round((blur * S) / 1.5));
+    const sm = document.createElement('canvas');
+    sm.width = Math.max(1, Math.round(sharp.width / f));
+    sm.height = Math.max(1, Math.round(sharp.height / f));
+    sm.getContext('2d')?.drawImage(sharp, 0, 0, sm.width, sm.height);
+    o.imageSmoothingQuality = 'high';
+    o.drawImage(sm, 0, 0, out.width, out.height);
+  }
+  const tex = new CanvasTexture(out);
+  tex.colorSpace = SRGBColorSpace;
+  const sprite = new Sprite(new SpriteMaterial({ map: tex, transparent: true, depthWrite: false, toneMapped: false }));
+  return { sprite, w, h };
+}
+
 /** One 3D bubble: extruded body + a flat text plane on its front face. */
 class Bubble {
   readonly group = new Group();
@@ -135,6 +209,11 @@ class Bubble {
   clip(planes: Plane[]) {
     this.mat.clippingPlanes = planes;
     this.labelMat.clippingPlanes = planes;
+  }
+
+  /** The painted label (tag + message), so a blurred copy can be drawn from it. */
+  get label(): HTMLCanvasElement {
+    return this.canvas;
   }
 
   /** Swap the body outline (tail left / right) without touching the text. */
@@ -224,13 +303,25 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
   const geos = [bubbleGeometry(1), bubbleGeometry(-1)];
 
   // Hero cloud.
-  interface Cloud { b: Bubble; baseScale: number; z: number; phase: number; speed: number; bx: number; by: number }
+  interface Cloud { b: Bubble; baseScale: number; z: number; phase: number; speed: number; bx: number; by: number; on: boolean; sprite: Sprite | null; sw: number; sh: number }
   const cloud: Cloud[] = cloudMsgs.slice(0, SLOTS_WIDE.length).map((msg, i) => {
     const b = new Bubble(geos[i % 2] as ExtrudeGeometry, palettes[order[i % order.length] as keyof typeof palettes], msg);
     b.clip([cover]);
     b.setOpacity(CLOUD_OPACITY);
     scene.add(b.group);
-    return { b, baseScale: 0.5 + rand(i + 1) * 0.42, z: (rand(i + 7) - 0.5) * 300, phase: rand(i + 3) * 6.28, speed: 0.7 + rand(i + 5) * 0.8, bx: 0, by: 0 };
+    const baseScale = 0.5 + rand(i + 1) * 0.42;
+    const z = (rand(i + 7) - 0.5) * 300;
+    // Out-of-focus bubbles become blurred sprites; the ones on the focal plane stay sharp 3D.
+    const blur = blurFor(z, baseScale);
+    let sprite: Sprite | null = null, sw = 0, sh = 0;
+    if (blur >= BLUR_MIN) {
+      const made = makeBlurSprite(i % 2 === 0 ? 1 : -1, palettes[order[i % order.length] as keyof typeof palettes], b.label, blur);
+      sprite = made.sprite; sw = made.w; sh = made.h;
+      (sprite.material as SpriteMaterial).clippingPlanes = [cover];
+      sprite.visible = false;
+      scene.add(sprite);
+    }
+    return { b, baseScale, z, phase: rand(i + 3) * 6.28, speed: 0.7 + rand(i + 5) * 0.8, bx: 0, by: 0, on: true, sprite, sw, sh };
   });
 
   // Traveler.
@@ -247,6 +338,8 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
     : null;
   if (reply) { reply.group.visible = false; scene.add(reply.group); }
   const replyAnchor = { x: 0, y: 0, scale: 1 };
+  // The traveler lane this reply belongs to: the reply answers as soon as the traveler has arrived there.
+  const replyLaneIdx = replyEl ? anchorEls.indexOf(replyEl.parentElement?.querySelector<HTMLElement>('[data-bubble-anchor]') as HTMLElement) : -1;
   let popStart = -1;
   const easeOutBack = (t: number) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
 
@@ -289,7 +382,7 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
       const s = slots[i % slots.length] as [number, number];
       c.bx = (s[0] - 0.5) * w;
       c.by = (0.5 - s[1]) * h;
-      c.b.group.visible = i < slots.length;
+      c.on = i < slots.length;
     });
     readAnchors();
   }
@@ -349,10 +442,10 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
     const heroOn = edge > 0;
     cloud.forEach((c) => {
       const g = c.b.group;
-      if (!heroOn) { g.visible = false; return; }
+      if (!heroOn || !c.on) { g.visible = false; if (c.sprite) c.sprite.visible = false; return; }
       const depth = (c.z + 150) / 300; // 0 far … 1 near
       const t = now * 0.001 * c.speed + c.phase;
-      g.visible = true;
+      g.visible = !c.sprite;
       g.position.set(
         c.bx + pointer.x * (14 + depth * 34),
         c.by + Math.sin(t) * 16 + sy * (0.25 + depth * 0.45) - pointer.y * (10 + depth * 22),
@@ -360,6 +453,14 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
       );
       g.rotation.set(Math.cos(t * 0.8) * 0.14 - pointer.y * 0.18, Math.sin(t * 0.7) * 0.38 + pointer.x * 0.3, Math.sin(t * 0.5) * 0.06);
       g.scale.setScalar(c.baseScale * k);
+      if (c.sprite) {
+        // Blurred stand-in follows the same float, parallax and tilt (z-rotation only; it is flat).
+        c.sprite.visible = true;
+        c.sprite.position.copy(g.position);
+        const sc = c.baseScale * k;
+        c.sprite.scale.set(c.sw * sc, c.sh * sc, 1);
+        (c.sprite.material as SpriteMaterial).rotation = g.rotation.z;
+      }
     });
 
     // Traveler: follows the scroll line, steering x/scale between anchors.
@@ -367,6 +468,8 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
     // True while the traveler is still flying to its target or flipping. Keeps the loop alive even when the
     // bubble is off screen, so a fast scroll never leaves it stuck in an old colour or mid-flip.
     let travelerBusy = false;
+    let trI = -1; // anchor the traveler is in (or leaving)
+    let trE = 0; // 0 = in that lane, 1 = arrived at the next one
     const n = anchors.length;
     if (n > 0) {
       const followY = sy + h * (narrow ? 0.62 : 0.5);
@@ -377,6 +480,7 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
       // the funnel stages follow the scroll line smoothly.
       const HOLD = 16;
       const yOf = (an: Anchor) => (an.hold ? clamp(followY, an.y - HOLD, an.y + HOLD) : followY);
+      trI = i;
       let x = a0.x, sc = a0.scale, yv = yOf(a0);
       if (i >= n - 1) { x = aN.x; sc = aN.scale; yv = yOf(aN); }
       else if (i >= 0) {
@@ -385,6 +489,7 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
         x = lerp(a.x, b.x, e);
         sc = lerp(a.scale, b.scale, e);
         yv = lerp(yOf(a), yOf(b), e);
+        trE = e;
       }
       const yPage = clamp(yv, a0.y, aN.y);
       const targetX = x - scrollX - w / 2;
@@ -435,8 +540,10 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
     if (reply) {
       const rsy = replyAnchor.y - sy;
       const offscreen = rsy < -H || rsy > h + H;
-      if (offscreen) popStart = -1;
-      else if (popStart < 0 && rsy > h * 0.15 && rsy < h * 0.9) popStart = now + 450;
+      // Pops right after the traveler arrives in this lane (once the lane is on screen); hides when it leaves.
+      const landed = (trI === replyLaneIdx && trE < 0.5) || (trI === replyLaneIdx - 1 && trE >= 0.95);
+      if (offscreen || !landed) popStart = -1;
+      else if (popStart < 0 && rsy < h * 0.95) popStart = now + 120;
       const p = popStart < 0 ? 0 : clamp((now - popStart) / 520, 0, 1);
       reply.group.visible = p > 0 && !offscreen;
       replyOn = !offscreen;

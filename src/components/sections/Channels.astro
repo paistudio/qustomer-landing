@@ -34,16 +34,16 @@ const spots = ['top-[6%] left-[4%]', 'top-[6%] right-[4%]', 'bottom-[14%] left-[
 
     <div class="lg:col-span-7 lg:pl-8">
       <p class="eyebrow">{c.eyebrow}</p>
-      <h2 id="channels-title" class="h2 mt-3 max-w-xl">{c.h2}</h2>
-      <p class="lead mt-5 max-w-xl">{c.p}</p>
+      <h2 id="channels-title" class="h2 mt-5 max-w-xl">{c.h2}</h2>
+      <p class="lead mt-6 max-w-xl">{c.p}</p>
       <!-- Example customer record: one person, three channels, one history. -->
-      <div data-play class="mt-10 max-w-md rounded-3xl border border-line bg-surface p-6 shadow-(--shadow-card) sm:p-7">
+      <div data-play class="mt-12 max-w-md rounded-3xl border border-line bg-surface p-6 shadow-(--shadow-card) sm:p-7">
         <div class="rise flex items-center justify-between gap-3" style="--i:0">
           <h3 class="text-sm text-ink-muted">{c.listTitle}</h3>
           <span class="rounded-full border border-line px-2.5 py-0.5 text-xs font-semibold text-ink-muted">{r.sample}</span>
         </div>
 
-        <div class="rise mt-5 flex items-center gap-4" style="--i:1">
+        <div class="rise mt-7 flex items-center gap-4" style="--i:1">
           <span class="grid size-12 shrink-0 place-items-center rounded-full bg-brand-600 font-display text-xl text-white" aria-hidden="true">{r.name.charAt(0)}</span>
           <div class="min-w-0">
             <p class="font-display text-xl leading-tight">{r.name}</p>
@@ -52,20 +52,20 @@ const spots = ['top-[6%] left-[4%]', 'top-[6%] right-[4%]', 'bottom-[14%] left-[
           <span class="ml-auto rounded-full bg-mint-300 px-3 py-1 text-sm font-semibold">{r.stage}</span>
         </div>
 
-        <ol class="mt-6 ml-1.5 border-l border-line">
+        <ol class="mt-8 ml-1.5 border-l border-line">
           {r.history.map((h, i) => (
-            <li class="rise relative pb-5 pl-6" style={`--i:${i + 2}`}>
+            <li class="rise relative pb-6 pl-6" style={`--i:${i + 2}`}>
               <span class="absolute top-1.5 -left-[6.5px] size-3 rounded-full bg-surface ring-2 ring-ink" aria-hidden="true"></span>
               <div class="flex items-baseline justify-between gap-3">
                 <span class="font-semibold">{h.ch}</span>
                 <span class="text-sm text-ink-muted">{h.day}</span>
               </div>
-              <p class="mt-0.5 text-sm text-ink-muted">{h.note}</p>
+              <p class="mt-1 text-sm text-ink-muted">{h.note}</p>
             </li>
           ))}
         </ol>
 
-        <div class="rise mt-1 flex items-center justify-between gap-4 rounded-2xl bg-surface-alt px-4 py-3" style="--i:5">
+        <div class="rise mt-2 flex items-center justify-between gap-4 rounded-2xl bg-surface-alt px-4 py-3.5" style="--i:5">
           <span class="text-sm text-ink-muted">{r.nextLabel}</span>
           <span class="font-semibold">{r.next}</span>
         </div>

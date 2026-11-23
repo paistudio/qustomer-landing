@@ -1,12 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '@/assets/logo-qustomer.svg';
+import Flag from '@/components/Flag.astro';
 import { site, getCopy, pathFor, bookPath, type Lang } from '@/config/site';
 
 interface Props { lang: Lang; localized?: boolean; alternates?: Record<Lang, string> }
 const { lang, localized = false, alternates } = Astro.props;
 const t = getCopy(lang);
-const langs: Lang[] = ['en', 'id'];
+const other: Lang = lang === 'en' ? 'id' : 'en';
+const otherName = getCopy(other).langName;
 const home = pathFor(lang);
 // On the landing page, section links stay on the page; elsewhere they point back to it.
 const navHref = (h: string) => (localized || h.startsWith('/') ? h : `${home}${h}`);
@@ -22,20 +24,19 @@ const navHref = (h: string) => (localized || h.startsWith('/') ? h : `${home}${h
     </ul>
 
     <div class="flex items-center gap-3">
-      <ul class="flex items-center text-sm font-semibold" aria-label={t.a11y.langSwitch}>
-        {langs.map((l) => (
-          <li>
-            <a
-              href={alternates?.[l] ?? pathFor(l)}
-              hreflang={l}
-              lang={l}
-              data-lang={l}
-              aria-current={l === lang ? 'true' : undefined}
-              class="inline-flex min-h-11 min-w-9 items-center justify-center rounded-full px-2 text-ink-muted hover:text-ink aria-[current=true]:text-brand-600"
-            >{l.toUpperCase()}</a>
-          </li>
-        ))}
-      </ul>
+      <!-- One pill: shows the active language; clicking switches to the other one. -->
+      <a
+        href={alternates?.[other] ?? pathFor(other)}
+        hreflang={other}
+        lang={other}
+        data-lang={other}
+        aria-label={`${t.a11y.langSwitch}: ${otherName}`}
+        title={otherName}
+        class="inline-flex min-h-10 items-center gap-2 rounded-full border border-line bg-surface py-1 pr-3 pl-1.5 text-sm font-semibold text-ink hover:bg-surface-alt"
+      >
+        <Flag lang={lang} class="size-6" />
+        <span aria-hidden="true">{lang.toUpperCase()}</span>
+      </a>
       <a href={bookPath(lang)} class="btn-primary hidden min-h-9! px-4! py-1.5! sm:inline-flex">{t.cta}</a>
     </div>
   </nav>
