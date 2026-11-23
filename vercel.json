@@ -18,7 +18,7 @@
       ]
     },
     {
-      "source": "/brand/(.*)",
+      "source": "/brand/:path*",
       "headers": [
         {
           "key": "X-Robots-Tag",
