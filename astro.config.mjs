@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL ?? 'https://qustomer.id',
   trailingSlash: 'never',
-  build: { inlineStylesheets: 'auto', format: 'file' },
+  build: { inlineStylesheets: 'auto', format: 'directory' },
   compressHTML: true,
   image: { responsiveStyles: true },
   integrations: [
