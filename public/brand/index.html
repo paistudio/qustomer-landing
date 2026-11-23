@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Qustomer style guide</title>
+<link rel="stylesheet" href="brand-tokens.css">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  .wrap{max-width:1152px;margin:0 auto;padding:0 24px}
+  header.top{padding:48px 0 24px}
+  section.s{padding:64px 0;border-top:1px solid var(--q-line)}
+  section.alt{background:var(--q-surface-alt)}
+  h2.q-h2{font-size:2.25rem;margin:0}
+  .sub{margin:12px 0 0;max-width:42rem}
+  .grid{display:grid;gap:16px}
+  .sw-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin-top:32px}
+  .sw{border-radius:20px;overflow:hidden;border:1px solid var(--q-line);background:#fff}
+  .sw .chip{height:96px}
+  .sw .meta{padding:12px 14px;font-size:13px;line-height:1.45}
+  .sw b{display:block;font-family:var(--q-font-display);font-weight:400;font-size:16px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--q-ink-muted)}
+  .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:24px}
+  table{border-collapse:collapse;width:100%;margin-top:24px;font-size:14px}
+  th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--q-line)}
+  th{background:var(--q-surface-alt);font-family:var(--q-font-display);font-weight:400}
+  .two{grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:32px}
+  .tile{display:flex;flex-direction:column;justify-content:space-between;min-height:144px;padding:24px 28px;border-radius:16px;background:var(--q-surface-alt)}
+  .tile small{font-family:var(--q-font-display);font-size:14px;color:var(--q-ink-muted)}
+  .tile span{font-family:var(--q-font-display);font-size:20px;line-height:1.25}
+  details.faq{background:var(--q-surface-alt);border-radius:24px;padding:20px 28px}
+  details.faq summary{display:flex;align-items:center;justify-content:space-between;gap:24px;cursor:pointer;list-style:none;font-family:var(--q-font-display);font-size:20px;min-height:44px}
+  details.faq summary::-webkit-details-marker{display:none}
+  details.faq .chev{display:grid;place-items:center;width:36px;height:36px;border-radius:9999px;background:#fff;box-shadow:var(--q-shadow-card);transition:transform .2s ease-out}
+  details.faq[open] .chev{transform:rotate(180deg)}
+  details.faq p{margin:16px 0 0;max-width:40rem;line-height:1.6;color:var(--q-ink-muted)}
+  .check{display:flex;gap:16px;align-items:flex-start;font-size:18px;line-height:1.4}
+  .check i{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:9999px;margin-top:2px}
+  .check svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+  .lang{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:4px 12px 4px 6px;border:1px solid var(--q-line);border-radius:9999px;background:#fff;font-size:14px;font-weight:600}
+  .flag{width:24px;height:24px;border-radius:9999px}
+  .tag small{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+  .spec{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--q-line)}
+  .spec .lbl{font-size:13px;color:var(--q-ink-muted)}
+  .rad{width:120px;height:80px;background:var(--q-surface-alt);border:1px solid var(--q-line);display:grid;place-items:center;font-size:12px;color:var(--q-ink-muted)}
+  .band{background:var(--q-brand-600);color:#fff;border-radius:24px;padding:48px}
+  .band p{color:var(--q-brand-50);margin:12px 0 24px;max-width:32rem}
+  .band .q-btn{background:#fff;color:var(--q-brand-700)}
+  @media (max-width:640px){.spec{grid-template-columns:1fr;gap:8px}}
+</style>
+</head>
+<body class="q-body">
+
+<header class="top wrap">
+  <img src="assets/logo-qustomer.svg" alt="Qustomer" height="36">
+  <h1 class="q-h1" style="margin:32px 0 0;font-size:3.25rem">Style guide</h1>
+  <p class="q-lead sub">Tokens, type, components and rules from the Qustomer landing page, for the portal. Companion files: <a href="brand-tokens.css"><code>brand-tokens.css</code></a>, <a href="BRAND-GUIDELINE.md"><code>BRAND-GUIDELINE.md</code></a>.</p>
+</header>
+
+<section class="s">
+  <div class="wrap">
+    <h2 class="q-h2">Logo and icon</h2>
+    <p class="q-lead sub">Rounded speech-bubble "Q" with a Cornflower to Citron gradient. Wordmark in black.</p>
+    <div class="row" style="gap:48px;margin-top:32px">
+      <div class="q-soft"><img src="assets/logo-qustomer.svg" alt="Qustomer wordmark" height="44"></div>
+      <div class="q-soft"><img src="assets/icon-qustomer.svg" alt="Qustomer icon" width="72" height="72"></div>
+      <div class="q-soft" style="display:flex;gap:16px;align-items:center"><img src="assets/icon-qustomer.svg" alt="" width="32" height="32"><img src="assets/icon-qustomer.svg" alt="" width="20" height="20"><img src="assets/icon-qustomer.svg" alt="" width="16" height="16"></div>
+    </div>
+  </div>
+</section>
+
+<section class="s alt">
+  <div class="wrap">
+    <h2 class="q-h2">Color</h2>
+    <p class="q-lead sub">Primary Cornflower, secondary Citron, accent Travertine. One accent per view.</p>
+    <div class="grid sw-grid">
+      <div class="sw"><div class="chip" style="background:var(--q-brand-50)"></div><div class="meta"><b>brand-50</b><code>#EDF6FF</code><br>Subtle tint</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-brand-100)"></div><div class="meta"><b>brand-100</b><code>#D8E9FF</code><br>Tints, fills</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-brand-500)"></div><div class="meta"><b>brand-500 · Primary</b><code>#5C88CD</code><br>Illustrations, bubbles, large fills</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-brand-600)"></div><div class="meta"><b>brand-600</b><code>#3F6EB6</code><br>Buttons, links, focus (AA)</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-brand-700)"></div><div class="meta"><b>brand-700</b><code>#2B569A</code><br>Hover / pressed</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-citron-300)"></div><div class="meta"><b>citron-300 · Secondary</b><code>#F1C437</code><br>Highlights, assistant bubble</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-citron-100)"></div><div class="meta"><b>citron-100</b><code>#FFF5D7</code><br>Soft yellow tint</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-sand-300)"></div><div class="meta"><b>sand-300 · Accent</b><code>#DDD4C4</code><br>Decoration, empty states</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-sand-100)"></div><div class="meta"><b>sand-100</b><code>#F8F5EE</code><br>Decorative tint</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-ink)"></div><div class="meta"><b>ink</b><code>#0F1216</code><br>Headings, body</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-ink-muted)"></div><div class="meta"><b>ink-muted</b><code>#5A5E63</code><br>Secondary text</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-surface);border-bottom:1px solid var(--q-line)"></div><div class="meta"><b>surface</b><code>#FFFFFF</code><br>Page background</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-surface-alt);border-bottom:1px solid var(--q-line)"></div><div class="meta"><b>surface-alt</b><code>#F9F6F1</code><br>Soft cards, sections</div></div>
+      <div class="sw"><div class="chip" style="background:var(--q-line)"></div><div class="meta"><b>line</b><code>#E9E4DC</code><br>Borders, dividers</div></div>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Status (states only)</h3>
+    <div class="row">
+      <span class="q-tag q-tag-outline"><span style="width:8px;height:8px;border-radius:9px;background:var(--q-success);margin-right:8px"></span>Success</span>
+      <span class="q-tag q-tag-outline"><span style="width:8px;height:8px;border-radius:9px;background:var(--q-warning);margin-right:8px"></span>Warning</span>
+      <span class="q-tag q-tag-outline"><span style="width:8px;height:8px;border-radius:9px;background:var(--q-danger);margin-right:8px"></span>Danger</span>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Text contrast</h3>
+    <table>
+      <tr><th>Pair</th><th>Ratio</th><th>Use</th></tr>
+      <tr><td>ink on surface</td><td>18.8 : 1</td><td>Body, headings</td></tr>
+      <tr><td>ink-muted on surface</td><td>6.5 : 1</td><td>Secondary text</td></tr>
+      <tr><td>white on brand-600</td><td>5.1 : 1</td><td>Buttons</td></tr>
+      <tr><td>white on brand-700</td><td>7.2 : 1</td><td>Hover</td></tr>
+      <tr><td>white on brand-500</td><td>3.6 : 1</td><td>Large text only (≥ 24 px)</td></tr>
+      <tr><td>brand-600 on surface</td><td>5.1 : 1</td><td>Links</td></tr>
+      <tr><td>ink on citron-300</td><td>11.4 : 1</td><td>Tags, bubbles. Never citron as text on white.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="s">
+  <div class="wrap">
+    <h2 class="q-h2">Typography</h2>
+    <p class="q-lead sub">Cal Sans for display, Inter Variable for reading text.</p>
+    <div style="margin-top:32px">
+      <div class="spec"><div class="lbl">H1 · 72 / 1.05<br>Cal Sans (hero only)</div><div class="q-h1" style="font-size:4.5rem">We reply, book, and follow up</div></div>
+      <div class="spec"><div class="lbl">H2 · 48 / 1.08<br>Cal Sans</div><div class="q-h2">Page and section titles</div></div>
+      <div class="spec"><div class="lbl">H3 · 30 / 1.15<br>Cal Sans</div><div class="q-h3">Block titles</div></div>
+      <div class="spec"><div class="lbl">H4 · 24 / 1.2<br>Cal Sans</div><div class="q-h4">Card and step titles</div></div>
+      <div class="spec"><div class="lbl">Lead · 20 / 1.4<br>Inter, ink-muted</div><div class="q-lead" style="margin:0">A team that works inside your WhatsApp, website, Instagram and email. With you, not instead of you.</div></div>
+      <div class="spec"><div class="lbl">Body large · 18 / 1.5<br>Inter</div><div style="font-size:18px;line-height:1.5">Set up channels, answers and booking rules.</div></div>
+      <div class="spec"><div class="lbl">Body · 16 / 1.5<br>Inter</div><div style="font-size:16px;line-height:1.5">We map how enquiries are handled today and set everything up around how you already work.</div></div>
+      <div class="spec"><div class="lbl">Small · 14 / 1.5<br>Inter</div><div style="font-size:14px">Labels, pills and helper text</div></div>
+      <div class="spec"><div class="lbl">Caption · 12 / 1.4<br>Inter (minimum size)</div><div style="font-size:12px">Captions and badges</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="s">
+  <div class="wrap">
+    <h2 class="q-h2">Components</h2>
+
+    <h3 class="q-h3" style="margin:40px 0 0;font-size:1.5rem">Buttons, pills, tags</h3>
+    <div class="row">
+      <a class="q-btn q-btn-primary" href="#">Book a discovery call</a>
+      <a class="q-btn q-btn-ghost" href="#">How we work</a>
+      <span class="q-pill">How we work</span>
+      <span class="q-tag">Kickoff within days</span>
+      <span class="q-tag q-tag-outline">Regular reviews</span>
+      <span class="lang"><svg class="flag" viewBox="0 0 24 24"><rect width="24" height="24" fill="#012169"/><path d="M0 0L24 24M24 0L0 24" stroke="#fff" stroke-width="4.5"/><path d="M0 0L24 24M24 0L0 24" stroke="#C8102E" stroke-width="1.6"/><path d="M12 0V24M0 12H24" stroke="#fff" stroke-width="7"/><path d="M12 0V24M0 12H24" stroke="#C8102E" stroke-width="4"/></svg>EN</span>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Cards</h3>
+    <div class="grid two">
+      <div class="q-card">
+        <p class="q-muted" style="margin:0;font-size:14px">A record we keep for every customer</p>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:20px">
+          <span style="display:grid;place-items:center;width:48px;height:48px;border-radius:9999px;background:var(--q-brand-600);color:#fff;font-family:var(--q-font-display);font-size:20px">S</span>
+          <div><div class="q-display" style="font-size:20px">Sinta</div><div class="q-muted" style="font-size:14px">3 channels, 1 history</div></div>
+          <span class="q-tag" style="margin-left:auto;background:var(--q-citron-300)">Qualified</span>
+        </div>
+        <div class="q-soft" style="margin-top:24px;padding:14px 16px;display:flex;justify-content:space-between;border-radius:16px"><span class="q-muted" style="font-size:14px">Next</span><b>Visit Saturday, 10:00</b></div>
+      </div>
+      <div class="q-soft">
+        <div class="q-display" style="font-size:20px">Soft card</div>
+        <p class="q-muted" style="margin:12px 0 0;line-height:1.6">Warm travertine tint, 24 px radius, no border and no shadow. Use it for quieter blocks.</p>
+      </div>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Tiles</h3>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:24px">
+      <div class="tile"><small>01</small><span>Services and prices</span></div>
+      <div class="tile"><small>02</small><span>Opening and quiet hours</span></div>
+      <div class="tile"><small>03</small><span>Booking and calendar rules</span></div>
+      <div class="tile"><small>04</small><span>Tone and language</span></div>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Checklist rows</h3>
+    <div class="grid two">
+      <div style="display:grid;gap:24px">
+        <div class="check"><i style="background:var(--q-brand-600);color:#fff"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></i>Set up channels, answers and booking rules</div>
+        <div class="check"><i style="background:var(--q-brand-600);color:#fff"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></i>Run the chats day to day</div>
+      </div>
+      <div style="display:grid;gap:24px">
+        <div class="check"><i style="background:var(--q-brand-50);color:var(--q-brand-600)"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></i>Approve answers and offers</div>
+        <div class="check"><i style="background:var(--q-brand-50);color:var(--q-brand-600)"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></i>Handle price talks, close the sale</div>
+      </div>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Chat bubbles</h3>
+    <div style="display:grid;gap:12px;margin-top:24px;max-width:26rem">
+      <div class="q-bubble q-bubble-customer tag"><small>WhatsApp</small>Hi, can I book a visit this Saturday?</div>
+      <div class="q-bubble q-bubble-assistant tag" style="justify-self:end"><small>Assistant</small>Yes! Saturday 10:00 is open. Shall I hold it for you?</div>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Accordion (FAQ)</h3>
+    <div style="display:grid;gap:12px;margin-top:24px;max-width:44rem">
+      <details class="faq" open><summary>Is Qustomer software or a service?<span class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary><p>A service. You do not buy software or learn a new tool. We set up the system for your business and run your customer conversations with you.</p></details>
+      <details class="faq"><summary>Which channels do you support?<span class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary><p>WhatsApp is our main channel. Website forms and chat, social media and email feed the same customer record.</p></details>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Form field</h3>
+    <div style="max-width:24rem;margin-top:24px;display:grid;gap:12px">
+      <input class="q-field" placeholder="Work email">
+      <a class="q-btn q-btn-primary" href="#">Send</a>
+    </div>
+
+    <h3 class="q-h3" style="margin:56px 0 0;font-size:1.5rem">Call-to-action band</h3>
+    <div class="band" style="margin-top:24px">
+      <h2 class="q-h2" style="font-size:2.25rem">See what's slipping through your chats</h2>
+      <p>Tell us where your enquiries come from. We will look at how they are handled today and show you what is getting lost.</p>
+      <a class="q-btn" href="#">Book a discovery call</a>
+    </div>
+  </div>
+</section>
+
+<section class="s">
+  <div class="wrap">
+    <h2 class="q-h2">Shape, elevation, spacing</h2>
+    <div class="row" style="gap:24px;margin-top:32px">
+      <div class="rad" style="border-radius:12px">12 · buttons</div>
+      <div class="rad" style="border-radius:16px">16 · tiles</div>
+      <div class="rad" style="border-radius:20px">20 · cards</div>
+      <div class="rad" style="border-radius:24px">24 · panels</div>
+      <div class="rad" style="border-radius:9999px;width:120px;height:48px">pill</div>
+      <div class="rad" style="background:#fff;box-shadow:var(--q-shadow-card);border:1px solid var(--q-line);border-radius:20px">shadow-card</div>
+    </div>
+    <table>
+      <tr><th>Spacing</th><th>Value</th></tr>
+      <tr><td>Container</td><td>max 1152 px; gutters 16 / 24 / 32</td></tr>
+      <tr><td>Section padding (landing)</td><td>80 px mobile / 112 px desktop</td></tr>
+      <tr><td>Label → title / title → lead</td><td>20 px / 20–24 px</td></tr>
+      <tr><td>Lead → content</td><td>48–64 px</td></tr>
+      <tr><td>Between blocks in a section</td><td>96–128 px (portal: 32–48 px)</td></tr>
+      <tr><td>List rows / card padding</td><td>24 px / 24–32 px</td></tr>
+      <tr><td>Touch target</td><td>≥ 44 px</td></tr>
+    </table>
+  </div>
+</section>
+
+</body>
+</html>

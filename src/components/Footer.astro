@@ -19,7 +19,7 @@ const year = new Date().getFullYear();
             <span class="grid size-9 place-items-center rounded-xl bg-white"><Image src={icon} alt="" width={24} height={24} class="size-6" /></span>
             {site.name}
           </a>
-          <p class="mt-4 max-w-xs text-brand-100">{t.footer.tagline}</p>
+          <p class="mt-4 max-w-xs text-brand-50">{t.footer.tagline}</p>
           <a href={contactHref} class="mt-4 inline-block font-semibold underline underline-offset-4 hover:text-mint-100">{site.email}</a>
         </div>
 
@@ -29,7 +29,7 @@ const year = new Date().getFullYear();
               <h2 class="text-sm font-semibold text-mint-100">{c.title}</h2>
               <ul class="mt-4 space-y-3">
                 {c.links.map((l) => (
-                  <li><a href={l.href} class="text-brand-100 hover:text-white">{l.label}</a></li>
+                  <li><a href={l.href} class="text-brand-50 hover:text-white">{l.label}</a></li>
                 ))}
               </ul>
             </div>
@@ -37,7 +37,7 @@ const year = new Date().getFullYear();
         </nav>
       </div>
 
-      <div class="mt-12 flex flex-col gap-3 border-t border-white/25 pt-6 text-sm text-brand-100 sm:flex-row sm:items-center sm:justify-between">
+      <div class="mt-12 flex flex-col gap-3 border-t border-white/25 pt-6 text-sm text-brand-50 sm:flex-row sm:items-center sm:justify-between">
         <p>&copy; {year} {site.name}. {t.footer.rights}</p>
         <a href={site.appUrl} rel="nofollow noopener" class="hover:text-white">{t.footer.login}</a>
       </div>

@@ -23,6 +23,7 @@ Use `caveman` skill for chat (terse, no filler). Code, page copy, docs, commits 
 - `src/i18n/pages-{en,id}.ts` — copy for inner SEO/legal pages (9 per language, Indonesian slugs). `src/config/pages.ts` registry, `src/pages/[...slug].astro` route, `src/components/InfoPage.astro` template. Footer links live in `footer.cols` of `en.ts`/`id.ts` and must match page slugs.
 - `src/pages/login.astro` — superadmin sign-in prototype (noindex, no auth wired).
 - `src/styles/global.css` — `@theme` tokens + `@utility` primitives. Mirror of `DESIGN.md`.
+- `public/brand/` — brand style guide for the portal (served at `/brand`, noindex): `index.html`, `brand-tokens.css`, `BRAND-GUIDELINE.md`, fonts, logo assets. Update it when tokens in `global.css` change.
 - `src/layouts/Base.astro` — html shell, font preload, header/footer
 - `src/components/SEO.astro` — title, meta, canonical, OG/Twitter, JSON-LD
 - `src/components/sections/*` — one section per file (Hero, Channels, Assistant, Funnel, Team, FAQ, CTA)

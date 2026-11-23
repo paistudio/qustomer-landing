@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Qustomer brand tokens — drop-in for the portal / platform.
+   Source of truth in the landing repo: src/styles/global.css (@theme) + DESIGN.md.
+
+   Part 1  Fonts
+   Part 2  Plain CSS variables (any stack): hex values, prefix --q-
+   Part 3  Plain CSS primitives (.q-btn, .q-card, ...) built on Part 2
+   Part 4  Tailwind v4 @theme block (oklch, identical to the landing page)
+
+   Use Part 2+3 for a non-Tailwind app, or Part 4 if the portal uses Tailwind v4.
+   ========================================================================== */
+
+/* ---- Part 1: fonts (self-hosted, SIL OFL) -------------------------------- */
+@font-face {
+  font-family: 'Cal Sans';
+  src: url('./fonts/cal-sans-latin-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter Variable';
+  src: url('./fonts/inter-variable-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* ---- Part 2: variables --------------------------------------------------- */
+:root {
+  /* Primary: Cornflower String #5C88CD. 600/700 are the AA-safe steps for text and buttons. */
+  --q-brand-50: #EDF6FF;
+  --q-brand-100: #D8E9FF;
+  --q-brand-500: #5C88CD; /* illustrations, 3D bubbles, large fills. White text on it is 3.6:1: large text only */
+  --q-brand-600: #3F6EB6; /* buttons, links, focus ring. White on it 5.1:1 */
+  --q-brand-700: #2B569A; /* hover / pressed. White on it 7.2:1 */
+
+  /* Secondary: Mellow Citron #F1C436 (legacy token name in the landing repo: "mint"). Fills and highlights only. */
+  --q-citron-100: #FFF5D7;
+  --q-citron-300: #F1C437;
+
+  /* Accent / decoration: Warm Travertine #DDD4C4 */
+  --q-sand-100: #F8F5EE;
+  --q-sand-300: #DDD4C4;
+
+  /* Neutrals */
+  --q-ink: #0F1216;          /* headings, body (18.8:1 on white) */
+  --q-ink-muted: #5A5E63;    /* secondary text (6.5:1 on white) */
+  --q-surface: #FFFFFF;      /* page background */
+  --q-surface-alt: #F9F6F1;  /* alternating sections, soft cards (warm tint) */
+  --q-line: #E9E4DC;         /* borders, dividers */
+
+  /* Status colours: states only, never decoration (Tailwind emerald-600 / amber-600 / rose-600) */
+  --q-success: #059669;
+  --q-warning: #D97706;
+  --q-danger: #E11D48;
+
+  /* Type */
+  --q-font-display: 'Cal Sans', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --q-font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Shape and elevation */
+  --q-radius-sm: 0.75rem;   /* 12px buttons, fields */
+  --q-radius-card: 1.25rem; /* 20px cards */
+  --q-radius-lg: 1.5rem;    /* 24px panels, tiles, FAQ items */
+  --q-radius-pill: 9999px;
+  --q-shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.08);
+  --q-focus: var(--q-brand-600);
+}
+
+/* ---- Part 3: plain CSS primitives ---------------------------------------- */
+.q-body { background: var(--q-surface); color: var(--q-ink); font-family: var(--q-font-sans); -webkit-font-smoothing: antialiased; }
+.q-display { font-family: var(--q-font-display); font-weight: 400; letter-spacing: -0.015em; }
+.q-h1 { font-family: var(--q-font-display); font-weight: 400; letter-spacing: -0.015em; font-size: 3.75rem; line-height: 1.05; text-wrap: balance; }
+.q-h2 { font-family: var(--q-font-display); font-weight: 400; letter-spacing: -0.015em; font-size: 3rem; line-height: 1.08; text-wrap: balance; }
+.q-h3 { font-family: var(--q-font-display); font-weight: 400; letter-spacing: -0.015em; font-size: 1.875rem; line-height: 1.15; }
+.q-h4 { font-family: var(--q-font-display); font-weight: 400; letter-spacing: -0.015em; font-size: 1.5rem; line-height: 1.2; }
+.q-lead { font-size: 1.25rem; line-height: 1.4; color: var(--q-ink-muted); text-wrap: pretty; }
+.q-muted { color: var(--q-ink-muted); }
+@media (max-width: 639px) { .q-h1 { font-size: 2.25rem; } .q-h2 { font-size: 1.875rem; } }
+
+:focus-visible { outline: 2px solid var(--q-focus); outline-offset: 2px; }
+
+.q-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.625rem 1.25rem; border-radius: var(--q-radius-sm); border: 1px solid transparent; font-family: var(--q-font-display); font-size: 15px; line-height: 1; cursor: pointer; text-decoration: none; transition: background-color 0.2s ease-out, color 0.2s ease-out; }
+.q-btn-primary { background: var(--q-brand-600); color: #fff; }
+.q-btn-primary:hover { background: var(--q-brand-700); }
+.q-btn-ghost { background: var(--q-surface); color: var(--q-ink); border-color: var(--q-line); }
+.q-btn-ghost:hover { background: var(--q-surface-alt); }
+
+.q-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: var(--q-radius-pill); border: 1px solid var(--q-line); background: var(--q-surface); font-family: var(--q-font-display); font-size: 0.875rem; color: var(--q-ink-muted); }
+.q-pill::before { content: ''; width: 0.375rem; height: 0.375rem; border-radius: 9999px; background: var(--q-brand-500); }
+.q-tag { display: inline-flex; padding: 0.25rem 0.75rem; border-radius: var(--q-radius-pill); background: var(--q-citron-100); font-size: 0.875rem; font-weight: 600; color: var(--q-ink); }
+.q-tag-outline { background: transparent; border: 1px solid var(--q-line); }
+
+.q-card { background: var(--q-surface); border: 1px solid var(--q-line); border-radius: var(--q-radius-card); padding: 1.5rem; box-shadow: var(--q-shadow-card); }
+.q-soft { background: var(--q-surface-alt); border-radius: var(--q-radius-lg); padding: 1.5rem 1.75rem; }
+
+.q-field { display: block; width: 100%; min-height: 2.75rem; padding: 0.75rem 1rem; border: 1px solid var(--q-line); border-radius: var(--q-radius-sm); background: var(--q-surface); color: var(--q-ink); font: inherit; font-size: 1rem; }
+.q-field::placeholder { color: var(--q-ink-muted); }
+
+/* Chat bubbles (the brand motif, flat version for the portal) */
+.q-bubble { display: inline-block; max-width: 22rem; padding: 0.75rem 1.25rem; font-weight: 600; border-radius: 1.5rem 1.5rem 1.5rem 0.375rem; }
+.q-bubble-customer { background: var(--q-brand-500); color: #fff; }
+.q-bubble-assistant { background: var(--q-citron-300); color: var(--q-ink); border-radius: 1.5rem 1.5rem 0.375rem 1.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ---- Part 4: Tailwind v4 (copy into your global.css, after @import 'tailwindcss') ---------------------------------
+@theme static {
+  --font-display: 'Cal Sans', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-brand-50: oklch(0.97 0.02 259);
+  --color-brand-100: oklch(0.93 0.04 259);
+  --color-brand-500: oklch(0.625 0.116 259.1);
+  --color-brand-600: oklch(0.54 0.125 259);
+  --color-brand-700: oklch(0.46 0.12 259);
+
+  --color-mint-100: oklch(0.97 0.04 90);      (citron tint; legacy token name)
+  --color-mint-300: oklch(0.837 0.156 90);    (citron #F1C436; legacy token name)
+  --color-sand-100: oklch(0.97 0.01 82);
+  --color-sand-300: oklch(0.873 0.024 82.1);  (travertine #DDD4C4)
+
+  --color-ink: oklch(0.18 0.01 262);
+  --color-ink-muted: oklch(0.48 0.01 262);
+  --color-surface: oklch(1 0 0);
+  --color-surface-alt: oklch(0.975 0.008 82);
+  --color-line: oklch(0.92 0.012 82);
+
+  --radius-card: 1.25rem;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.08);
+}
+
+@layer base {
+  html { font-synthesis: none; }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.015em; }
+  body { @apply bg-surface text-ink font-sans antialiased; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-brand-600; }
+}
+@utility btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-display text-[15px] transition-colors; }
+@utility btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-700; }
+@utility btn-ghost { @apply btn border border-line bg-surface text-ink hover:bg-surface-alt; }
+@utility card { @apply rounded-(--radius-card) border border-line bg-surface p-6 shadow-(--shadow-card); }
+@utility eyebrow { @apply inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 font-display text-sm text-ink-muted before:size-1.5 before:rounded-full before:bg-brand-500 before:content-['']; }
+@utility field { @apply block min-h-11 w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-ink-muted; }
+-------------------------------------------------------------------------------------------------------------------- */
