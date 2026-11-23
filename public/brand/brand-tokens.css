@@ -37,16 +37,16 @@
   --q-citron-100: #FFF5D7;
   --q-citron-300: #F1C437;
 
-  /* Accent / decoration: Warm Travertine #DDD4C4 */
-  --q-sand-100: #F8F5EE;
-  --q-sand-300: #DDD4C4;
+  /* Accent / decoration: cool Mist (light blue-grey, same hue as the primary) */
+  --q-mist-100: #F3F5F9;
+  --q-mist-300: #D6DFEC;
 
   /* Neutrals */
   --q-ink: #0F1216;          /* headings, body (18.8:1 on white) */
   --q-ink-muted: #5A5E63;    /* secondary text (6.5:1 on white) */
   --q-surface: #FFFFFF;      /* page background */
-  --q-surface-alt: #F9F6F1;  /* alternating sections, soft cards (warm tint) */
-  --q-line: #E9E4DC;         /* borders, dividers */
+  --q-surface-alt: #F5F7F9;  /* alternating sections, soft cards (cool tint) */
+  --q-line: #E2E5E9;         /* borders, dividers */
 
   /* Status colours: states only, never decoration (Tailwind emerald-600 / amber-600 / rose-600) */
   --q-success: #059669;
@@ -118,14 +118,14 @@
 
   --color-mint-100: oklch(0.97 0.04 90);      (citron tint; legacy token name)
   --color-mint-300: oklch(0.837 0.156 90);    (citron #F1C436; legacy token name)
-  --color-sand-100: oklch(0.97 0.01 82);
-  --color-sand-300: oklch(0.873 0.024 82.1);  (travertine #DDD4C4)
+  --color-mist-100: oklch(0.97 0.006 259);
+  --color-mist-300: oklch(0.9 0.02 259);      (cool light blue-grey)
 
   --color-ink: oklch(0.18 0.01 262);
   --color-ink-muted: oklch(0.48 0.01 262);
   --color-surface: oklch(1 0 0);
-  --color-surface-alt: oklch(0.975 0.008 82);
-  --color-line: oklch(0.92 0.012 82);
+  --color-surface-alt: oklch(0.975 0.004 259);
+  --color-line: oklch(0.92 0.006 259);
 
   --radius-card: 1.25rem;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.08);

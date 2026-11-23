@@ -11,7 +11,7 @@ Tokens live in `src/styles/global.css` (`@theme`). This file is the spec; CSS is
 4. **Accessible by default** — WCAG 2.2 AA minimum.
 
 ## Color
-**Experiment palette** (branch `experiment/palette-cornflower`; `main` keeps the original logo blue + mint).
+**Experiment palette** (live on `main`).
 
 | Token | Use | Value |
 |---|---|---|
@@ -22,13 +22,13 @@ Tokens live in `src/styles/global.css` (`@theme`). This file is the spec; CSS is
 | `brand-700` | hover/pressed | `oklch(0.46 0.12 259)` ≈ #2B569B |
 | `mint-100` | soft panel behind the assistant lane (yellow tint; name kept from the old palette) | `oklch(0.97 0.04 90)` |
 | `mint-300` | secondary **Mellow Citron #F1C436**: fills and highlights only, never text on white | `oklch(0.837 0.156 90)` |
-| `sand-100` | decoration tint | `oklch(0.97 0.01 82)` |
-| `sand-300` | accent / decoration **Warm Travertine #DDD4C4** (3D "pale" bubbles) | `oklch(0.873 0.024 82.1)` |
+| `mist-100` | decoration tint | `oklch(0.97 0.006 259)` |
+| `mist-300` | accent / decoration, cool light blue-grey (3D "pale" bubbles). Replaced the warm travertine #DDD4C4. | `oklch(0.9 0.02 259)` |
 | `ink` | headings, body | `oklch(0.18 0.01 262)` |
 | `ink-muted` | secondary text (≥ 4.5:1 on white) | `oklch(0.48 0.01 262)` |
 | `surface` | page bg | white |
-| `surface-alt` | alternating sections, footer (warm travertine tint) | `oklch(0.975 0.008 82)` |
-| `line` | borders, dividers | `oklch(0.92 0.012 82)` |
+| `surface-alt` | alternating sections, footer (cool neutral tint) | `oklch(0.975 0.004 259)` |
+| `line` | borders, dividers | `oklch(0.92 0.006 259)` |
 
 Logo, icon and favicon use the matching gradient (Cornflower #5C88CD → Citron #F1C436); assets in `src/assets/` and `public/favicon.svg`.
 

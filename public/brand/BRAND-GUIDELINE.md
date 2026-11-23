@@ -1,5 +1,7 @@
 # Qustomer brand and style guideline
 
+**Version 1.1 · updated 23 Nov 2026** (cool neutrals, Mist accent, new logo, patterns and motif added; see the changelog at the end).
+
 Reference for updating the portal / platform so it matches the landing page (`www.qustomer.id`).
 Source of truth in code: `src/styles/global.css` (tokens), `DESIGN.md`, and the components under `src/components`.
 Files (served at `https://www.qustomer.id/brand`, source in `public/brand/`): `brand-tokens.css` (drop-in tokens and primitives), `index.html` (visual style guide), `fonts/`, `assets/` (logo, icon, OG image).
@@ -11,6 +13,9 @@ Qustomer is a **managed service, a team, not a tool**. The look is calm and conf
 - Plain, benefit-first, short sentences. Numbers over adjectives.
 - Write in "we" voice for the service (we set up, we run with you). In the portal, address the user as "you".
 - Never imply pricing, proof or metrics that do not exist.
+- Avoid filler and hype: no "supercharge", "unlock", "seamless", "effortless", "next-gen", no "Fast. Simple. Powerful." triplets.
+- Good: "We reply, book, and follow up on your customer chats." Bad: "Unlock seamless AI-powered customer engagement."
+- Tone anchors: *Not an agency. Not a contractor. Not just a tool. Part of your team.*
 
 ## 2. Logo and icon
 
@@ -36,13 +41,13 @@ Qustomer is a **managed service, a team, not a tool**. The look is calm and conf
 | `brand-700` | `--q-brand-700` | `#2B569A` | `0.46 0.12 259` | Hover / pressed |
 | `mint-300` | `--q-citron-300` | `#F1C437` | `0.837 0.156 90` | **Secondary (Mellow Citron)**: highlights, assistant bubble, tags |
 | `mint-100` | `--q-citron-100` | `#FFF5D7` | `0.97 0.04 90` | Soft yellow panels and tags |
-| `sand-300` | `--q-sand-300` | `#DDD4C4` | `0.873 0.024 82` | **Accent / decoration (Warm Travertine)**: illustrations, empty states |
-| `sand-100` | `--q-sand-100` | `#F8F5EE` | `0.97 0.01 82` | Decorative tint |
+| `mist-300` | `--q-mist-300` | `#D6DFEC` | `0.9 0.02 259` | **Accent / decoration (Mist)**: illustrations, empty states. A cool light blue-grey, same hue as the primary |
+| `mist-100` | `--q-mist-100` | `#F3F5F9` | `0.97 0.006 259` | Decorative tint |
 | `ink` | `--q-ink` | `#0F1216` | `0.18 0.01 262` | Headings, body |
 | `ink-muted` | `--q-ink-muted` | `#5A5E63` | `0.48 0.01 262` | Secondary text |
 | `surface` | `--q-surface` | `#FFFFFF` | `1 0 0` | Page background |
-| `surface-alt` | `--q-surface-alt` | `#F9F6F1` | `0.975 0.008 82` | Alternating sections, soft cards, table headers |
-| `line` | `--q-line` | `#E9E4DC` | `0.92 0.012 82` | Borders and dividers (warm) |
+| `surface-alt` | `--q-surface-alt` | `#F5F7F9` | `0.975 0.004 259` | Alternating sections, soft cards, table headers (cool neutral) |
+| `line` | `--q-line` | `#E2E5E9` | `0.92 0.006 259` | Borders and dividers (cool neutral) |
 
 The token names `mint-*` in the landing repo are legacy: they now hold the yellow. Use the `citron` names in the portal.
 
@@ -54,11 +59,11 @@ The token names `mint-*` in the landing repo are legacy: they now hold the yello
    - `ink` on `surface` 18.8:1, `ink-muted` on `surface` 6.5:1, on `surface-alt` 6.1:1.
    - White on `brand-600` 5.1:1 (buttons), on `brand-700` 7.2:1. White on `brand-500` is only 3.6:1: **large text only (≥ 24 px, or 19 px bold)**.
    - `brand-600` text on `surface` 5.1:1, on `brand-50` 4.7:1.
-   - `ink` on `citron-300` 11.4:1, on `sand-300` 12.8:1. **Never use yellow as text on white.**
+   - `ink` on `citron-300` 11.4:1, on `mist-300` 14.0:1. **Never use yellow as text on white.**
    - `brand-100` on `brand-600` is only 4.1:1: use `brand-50` or white for small text on a blue band.
 3. The blue → yellow gradient belongs to the logo and the funnel illustration only. No other gradients, glows or blobs.
-4. Backgrounds are white, `surface-alt` (warm), or a `brand-600` band for a closing call-to-action. Dark mode is **not** defined yet.
-5. Data viz order: `brand-500`, `citron-300`, `sand-300`, `brand-700`, `ink-muted`. Always label series, do not rely on color alone.
+4. Backgrounds are white, `surface-alt` (cool), or a `brand-600` band for a closing call-to-action. Dark mode is **not** defined yet.
+5. Data viz order: `brand-500`, `citron-300`, `mist-300`, `brand-700`, `ink-muted`. Always label series, do not rely on color alone.
 
 ## 4. Typography
 
@@ -82,6 +87,7 @@ Both are SIL Open Font License and self-hosted. Subsets: latin. Preload the two 
 | Small | 14 / 1.5 | 14 | Labels, pills, helper text |
 | Caption | 12 / 1.4 | 12 | Captions, badges. Never below 12 px. |
 
+- The landing hero H1 steps 36 px (mobile) → 60 px (≥ 640) → 72 px (≥ 1024). Other titles step 30 → 48 px at 640.
 - Keep paragraphs to ≤ 65 characters per line (`max-w-2xl` for text blocks).
 - Use `text-wrap: balance` on titles and `pretty` on paragraphs.
 - Hierarchy rule: each section has one largest text (its title). Weight and size come before color.
@@ -137,38 +143,72 @@ Use the recipes in `brand-tokens.css` (`.q-*` plain CSS) or the Tailwind `@utili
 
 **Customer record card**: white card, avatar circle (`brand-600`, white initial), name Cal Sans 20, stage pill (`citron-300`), vertical timeline with 12 px dots (ring `ink`), footer row on `surface-alt` ("Next …").
 
+**Outlined panel (two columns)**: 1 px `line` border, 24 px radius, no fill, padding 32 / 48 px; two columns with a 1 px `line` divider. Column header = a pill (hero-style icon + label such as "We" / "You") plus a short descriptor, then a checklist. Used for "Who does what"; use it for any side-by-side comparison.
+
+**Step list (horizontal)**: four columns, each opened by a 1 px `ink` rule; small grey index (`01`), 24 px Cal Sans title, 16 px description, outline tag. 40 px column gap, 64 px row gap on narrow screens. Monochrome: no colored cards for steps.
+
+**Hand-drawn underline**: one wavy 2.5 px stroke in `brand-600` under the single phrase you want remembered (hero: "Part of your team."). It draws itself once (0.9 s). Use at most once per page.
+
+**Hero**: pill eyebrow → H1 (statement of what we do) → one-sentence lead → primary + ghost button → a one-line strip of four short differentiators, the last one in `brand-600` with the underline.
+
 **CTA band**: `brand-600` rounded-3xl panel, white title, `brand-50` supporting text, white button with `brand-700` text.
 
-## 8. Iconography
+## 8. Brand motif: chat bubbles
+
+The icon is a speech bubble, and the site echoes it in 3D. Colors come from tokens.
+
+- **Speakers**: customer = blue (`brand-500`, tail bottom-left), assistant/team = citron (`citron-300`, tail bottom-right). When the speaker changes, the bubble flips horizontally and swaps color.
+- **Background cloud** (hero only): blue, white, mist and citron bubbles floating at different depths. The main bubble sits on the focal plane and stays sharp; the others blur with distance from it and with their size (depth of field), so attention goes to the main message.
+- **Message copy** inside bubbles is short (≤ 12 words) and realistic: a customer asking a real question, a short assistant reply. Label every bubble with its source (WhatsApp, Website, Assistant) in 12 px uppercase.
+- **In the portal** use the flat bubble component (`.q-bubble`). Do not use the 3D scene or blur inside product screens.
+- The scene is decorative: hidden from assistive tech, static (flat bubbles) without JavaScript or with reduced motion.
+
+## 9. Iconography
 
 24 px stroke icons, 2 px stroke, round caps and joins, `currentColor`, inline SVG. Decorative icons get `aria-hidden`. The Qustomer icon can appear inside a pill or as the avatar of the team ("We"). Flags are round, 20–24 px.
 
-## 9. Motion
+## 10. Motion
 
 - Durations 150–250 ms, `ease-out`; only opacity and transform. Entrances: rise 14 px + fade, 0.6 s, staggered by 0.35 s; "pop" for chat replies (scale from 0.7 with a small overshoot).
 - Animations that explain (a conversation, a funnel) start when they scroll into view.
 - Always respect `prefers-reduced-motion`: show the final state, no animation.
 
-## 10. Accessibility
+## 11. Accessibility
 
 - WCAG 2.2 AA. Text contrast ≥ 4.5:1 (large ≥ 3:1). Visible focus ring (`brand-600`, 2 px).
 - Touch targets ≥ 44 px (36 px only for dense secondary controls).
 - Landmarks, one `h1` per page, labelled sections, meaningful `alt` text; decorative SVG `aria-hidden`.
 
-## 11. Applying this to the portal
+## 12. Applying this to the portal
 
 1. Add `brand-tokens.css` (or the Tailwind block) and the two font files. Replace the old blue and green tokens; map any old "success green" to the status color, not to citron.
 2. App shell: white page background, `surface-alt` sidebar or section backgrounds, `line` dividers, active nav item = `brand-50` background with `brand-600` text.
 3. Tables: header row on `surface-alt`, 1 px `line` rows, 14 px text, row height 48–56 px. Numbers right-aligned with tabular figures.
 4. Primary action = `brand-600`. Secondary = ghost. Destructive = danger color outline, filled only in the confirmation dialog.
-5. Empty states: `sand-300` or `sand-100` illustration/background with a short Cal Sans title and one primary button.
+5. Empty states: `mist-300` or `mist-100` illustration/background with a short Cal Sans title and one primary button.
 6. Conversation views: customer bubbles blue, team/assistant bubbles citron, matching the landing page.
 7. Badges for pipeline stage: soft pills; use the funnel order (Enquiry → Replied → Qualified → Booked → Followed up) with blue → citron progression.
 8. Keep copy short; Indonesian runs about 15% longer than English, so leave room in buttons and tabs.
 
-## 12. Known gaps / decisions still open
+## 13. Known gaps / decisions still open
 
 - No dark mode palette yet.
 - The chat widget (`app.qustomer.id/widget.js`) still uses `data-color="#4f46e5"` (indigo). To match the brand use `#3F6EB6` (`brand-600`).
 - Token names `mint-*` in the landing repo are legacy and should be renamed `citron-*` when convenient.
 - The 3D bubble scene is landing-only; the portal uses the flat bubble component.
+
+## 14. Quick do and don't
+
+| Do | Don't |
+|---|---|
+| One primary button per view, `brand-600` | Several accent colors competing in one view |
+| Cool neutrals (`surface-alt`, `line`) and generous whitespace | Warm / beige tints on large areas (removed in v1.1) |
+| Citron as a small highlight (tag, assistant bubble) | Citron as page background or as text on white |
+| Cal Sans for titles, Inter for reading | Faux bold on Cal Sans, text under 12 px |
+| Soft cards without border, or outlined panels without fill | Heavy shadows, glows, glassmorphism, extra gradients |
+| Short, specific copy | Hype words, invented numbers, logos or testimonials |
+
+## 15. Changelog
+
+- **1.1 (23 Nov 2026)**: removed the warm travertine/sand tones; `surface-alt` and `line` are now cool neutrals; decorative accent is **Mist** (`#D6DFEC`). New logo, icon and favicon (Cornflower → Citron gradient). Added patterns (outlined panel, horizontal steps, hand-drawn underline, hero), the bubble motif with depth of field, voice examples and a do/don't table. Footer and CTA small text raised to `brand-50` on `brand-600` for AA.
+- **1.0 (23 Nov 2026)**: first guideline: cornflower / citron / travertine palette, type scale, spacing, components.

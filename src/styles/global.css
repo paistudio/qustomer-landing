@@ -19,15 +19,15 @@
   --color-mint-100: oklch(0.97 0.04 90);
   --color-mint-300: oklch(0.837 0.156 90);
 
-  /* Accent and decoration: Warm Travertine #DDD4C4 = sand-300. */
-  --color-sand-100: oklch(0.97 0.01 82);
-  --color-sand-300: oklch(0.873 0.024 82.1);
+  /* Accent and decoration: cool mist (a light blue-grey, same hue as the primary). Replaces the warm travertine. */
+  --color-mist-100: oklch(0.97 0.006 259);
+  --color-mist-300: oklch(0.9 0.02 259);
 
   --color-ink: oklch(0.18 0.01 262);        /* primary text */
   --color-ink-muted: oklch(0.48 0.01 262); /* secondary text, >= 4.5:1 on white */
   --color-surface: oklch(1 0 0);
-  --color-surface-alt: oklch(0.975 0.008 82); /* warm travertine tint */
-  --color-line: oklch(0.92 0.012 82);
+  --color-surface-alt: oklch(0.975 0.004 259); /* cool neutral tint */
+  --color-line: oklch(0.92 0.006 259);
 
   --radius-card: 1.25rem;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.08);
