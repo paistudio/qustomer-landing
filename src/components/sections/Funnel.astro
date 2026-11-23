@@ -1,0 +1,49 @@
+---
+import type { Copy } from '@/i18n/en';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+const f = t.funnel;
+const n = f.stages.length;
+// Tier widths shrink 100% → 44%. Bubble scale shrinks with them so it fits through the neck.
+const widths = f.stages.map((_, i) => 100 - i * 14);
+const bubbleScale = [0.9, 0.8, 0.72, 0.64, 0.58];
+---
+<section id="how" class="section bg-surface-alt" aria-labelledby="how-title">
+  <div class="container-page">
+    <div class="max-w-2xl">
+      <h2 id="how-title" class="h2">{f.h2}</h2>
+      <p class="lead mt-4">{f.lead}</p>
+    </div>
+
+    <ol class="mt-12 lg:mt-16">
+      {f.stages.map((s, i) => {
+        const w = widths[i] ?? 100;
+        const next = widths[i + 1] ?? w - 14;
+        const inset = ((w - next) / 2 / w) * 100; // % pinched off each side at the bottom
+        const mix = Math.round((i / (n - 1)) * 100); // blue → mint down the funnel
+        return (
+          <li data-stage-item={i} class="group grid items-center gap-x-10 lg:grid-cols-12">
+            <div class="flex justify-center lg:col-span-5">
+              <div
+                data-bubble-anchor
+                data-stage={i}
+                data-scale={bubbleScale[i] ?? 0.6}
+                data-tag={s.tag}
+                data-msg={s.msg}
+                aria-hidden="true"
+                class="h-24 transition-shadow sm:h-28"
+                style={`width:${w}%;clip-path:polygon(0 0,100% 0,${100 - inset}% 100%,${inset}% 100%);background:color-mix(in oklab,var(--color-brand-100) ${100 - mix}%,var(--color-mint-300) ${mix}%)`}
+              ></div>
+            </div>
+            <div class="py-5 text-ink-muted transition-colors group-data-[state=active]:text-ink lg:col-span-7 lg:py-8">
+              <p class="text-sm font-semibold text-brand-600 tabular-nums">{f.step} {i + 1}</p>
+              <h3 class="mt-1 text-2xl font-bold tracking-tight text-ink">{s.t}</h3>
+              <p class="mt-2 max-w-md">{s.d}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</section>

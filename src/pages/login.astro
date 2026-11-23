@@ -1,0 +1,66 @@
+---
+// Superadmin sign-in PROTOTYPE. No auth is wired: the form is intercepted client-side and sends nothing.
+import { Image } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import logo from '@/assets/logo-qustomer.svg';
+import icon from '@/assets/icon-qustomer.svg';
+import { site } from '@/config/site';
+---
+<Base
+  lang="en"
+  title={`Sign in | ${site.name} Admin`}
+  description="Qustomer superadmin sign-in."
+  noindex
+  bare
+>
+  <div class="grid min-h-svh lg:grid-cols-12">
+    <aside class="relative hidden overflow-hidden bg-surface-alt lg:col-span-5 lg:block" aria-hidden="true">
+      <Image src={icon} alt="" width={640} height={640} class="absolute -bottom-32 -left-24 w-[34rem] max-w-none opacity-30" />
+    </aside>
+
+    <section class="flex items-center justify-center px-4 py-12 sm:px-8 lg:col-span-7" aria-labelledby="login-title">
+      <div class="w-full max-w-sm">
+        <a href="/" aria-label={`${site.name} home`} class="inline-block">
+          <Image src={logo} alt={site.name} width={141} height={28} loading="eager" class="h-7 w-auto" />
+        </a>
+
+        <h1 id="login-title" class="mt-10 text-3xl font-bold tracking-tight">Superadmin sign in</h1>
+        <p class="mt-2 text-ink-muted">Authorized Qustomer team members only.</p>
+
+        <form data-login-form method="post" action="#" class="mt-8 space-y-5">
+          <div>
+            <label for="email" class="mb-1.5 block text-sm font-semibold">Work email</label>
+            <input id="email" name="email" type="email" autocomplete="username" required class="field" placeholder="you@qustomer.id" />
+          </div>
+          <div>
+            <div class="mb-1.5 flex items-center justify-between">
+              <label for="password" class="block text-sm font-semibold">Password</label>
+              <a href="#" class="text-sm font-semibold text-brand-600 hover:text-brand-700">Forgot password?</a>
+            </div>
+            <input id="password" name="password" type="password" autocomplete="current-password" required class="field" />
+          </div>
+          <label class="flex min-h-11 items-center gap-3 text-sm">
+            <input type="checkbox" name="remember" class="size-5 rounded border-line accent-brand-600" />
+            Keep me signed in on this device
+          </label>
+          <button type="submit" class="btn-primary w-full">Sign in</button>
+          <p id="login-status" role="status" class="min-h-5 text-sm text-ink-muted"></p>
+        </form>
+
+        <p class="mt-10 text-sm text-ink-muted">
+          <a href="/" class="font-semibold text-ink hover:text-brand-600">Back to qustomer</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  // Prototype only: nothing is submitted anywhere.
+  const form = document.querySelector<HTMLFormElement>('[data-login-form]');
+  const status = document.getElementById('login-status');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (status) status.textContent = 'Prototype only. Sign-in is not connected yet.';
+  });
+</script>

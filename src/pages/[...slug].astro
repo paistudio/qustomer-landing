@@ -1,0 +1,20 @@
+---
+// Inner pages for both languages, generated from src/i18n/pages-*.ts.
+import type { GetStaticPaths } from 'astro';
+import InfoPage from '@/components/InfoPage.astro';
+import { getPages } from '@/config/pages';
+import type { Lang } from '@/config/site';
+
+export const getStaticPaths = (() => {
+  const langs: Lang[] = ['en', 'id'];
+  return langs.flatMap((lang) =>
+    getPages(lang).map((page) => ({
+      params: { slug: lang === 'en' ? page.slug : `id/${page.slug}` },
+      props: { lang, page },
+    })),
+  );
+}) satisfies GetStaticPaths;
+
+const { lang, page } = Astro.props;
+---
+<InfoPage lang={lang} page={page} />

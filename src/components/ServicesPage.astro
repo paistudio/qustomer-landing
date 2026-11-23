@@ -1,0 +1,96 @@
+---
+import Base from '@/layouts/Base.astro';
+import ServiceVisual from '@/components/ServiceVisual.astro';
+import CTA from '@/components/sections/CTA.astro';
+import { getCopy, pathFor, servicesPath, bookPath, type Lang } from '@/config/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getCopy(lang);
+const s = t.services;
+const alternates = { en: servicesPath('en'), id: servicesPath('id') };
+const abs = (path: string) => new URL(path, Astro.site!).href;
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: lang === 'en' ? 'Home' : 'Beranda', item: abs(pathFor(lang)) },
+      { '@type': 'ListItem', position: 2, name: s.label, item: abs(servicesPath(lang)) },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: s.h1,
+    itemListElement: s.groups.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.t, description: g.d })),
+  },
+];
+---
+<Base lang={lang} title={s.metaTitle} description={s.metaDescription} jsonLd={ld} alternates={alternates}>
+  <section class="section">
+    <div class="container-page">
+      <div class="max-w-3xl">
+        <p class="eyebrow">{s.eyebrow}</p>
+        <h1 class="h1 mt-4 sm:text-6xl!">{s.h1}</h1>
+        <p class="lead mt-5">{s.lead}</p>
+        <div class="mt-8">
+          <a href={bookPath(lang)} class="btn-primary">{t.hero.primary}</a>
+        </div>
+      </div>
+
+      <ol class="mt-16 divide-y divide-line border-y border-line">
+        {s.groups.map((g, i) => (
+          <li class="grid items-center gap-x-12 gap-y-8 py-12 lg:grid-cols-12">
+            <div class={`lg:col-span-6 ${i % 2 ? 'lg:order-2' : ''}`}>
+              <p class="text-sm font-semibold text-brand-600 tabular-nums">{String(i + 1).padStart(2, '0')}</p>
+              <h2 class="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">{g.t}</h2>
+              <p class="mt-2 text-lg text-ink-muted">{g.d}</p>
+              <h3 class="sr-only">{s.pointsLabel}</h3>
+              <ul class="mt-6 space-y-3">
+                {g.points.map((p) => (
+                  <li class="flex gap-3">
+                    <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-brand-500" aria-hidden="true"></span>
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class={`lg:col-span-6 ${i % 2 ? 'lg:order-1' : ''}`}>
+              <ServiceVisual kind={i} vis={g.vis} />
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-16 grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <h2 class="h2">{s.notTitle}</h2>
+        </div>
+        <ul class="space-y-3 text-ink-muted lg:col-span-7">
+          {s.nots.map((n) => (
+            <li class="flex gap-3">
+              <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-ink-muted" aria-hidden="true"></span>
+              <span>{n}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="mt-16">
+        <h2 class="h2">{s.industriesTitle}</h2>
+        <p class="lead mt-3 max-w-2xl">{s.industriesLead}</p>
+        <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+          {s.industries.map((x) => (
+            <li class="rounded-2xl border border-line bg-surface p-6">
+              <h3 class="text-lg font-bold">{x.t}</h3>
+              <p class="mt-2 text-ink-muted">{x.d}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+  <CTA slot="cta" t={{ ...t, finalCta: { ...t.finalCta, h2: s.ctaTitle, p: s.ctaP } }} />
+</Base>

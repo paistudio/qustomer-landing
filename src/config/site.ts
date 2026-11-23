@@ -1,18 +1,29 @@
 // Single source of truth for brand + SEO. Edit here, not in components.
+// Page copy per language lives in src/i18n/*.ts (same shape; `id` is typed against `en`).
+import { en } from '@/i18n/en';
+import { id } from '@/i18n/id';
+
+export type Lang = 'en' | 'id';
+
 export const site = {
   name: 'Qustomer',
-  tagline: 'Every customer conversation, one inbox.',
-  description:
-    'Qustomer unifies chat, email and WhatsApp into one fast inbox so your team answers customers quicker.',
-  locale: 'en_US',
-  lang: 'en',
+  domain: 'qustomer.id',
+  email: 'hello@qustomer.id', // TODO confirm contact address
   twitter: '@qustomer',
-  ogImage: '/og.png', // 1200x630, put in /public
-  themeColor: '#4f46e5',
-  nav: [
-    { label: 'Features', href: '#features' },
-    { label: 'How it works', href: '#how' },
-    { label: 'FAQ', href: '#faq' },
-  ],
-  cta: { label: 'Start free trial', href: '#get-started' },
+  ogImage: '/og.png', // TODO 1200x630, put in /public
+  themeColor: '#1a6ffb', // logo blue
+  defaultLang: 'en' as Lang,
+  langStorageKey: 'qustomer-lang',
 } as const;
+
+const locales = { en, id } as const;
+
+export const getCopy = (lang: Lang) => locales[lang];
+export const pathFor = (lang: Lang) => (lang === 'en' ? '/' : '/id');
+export const contactHref = `mailto:${site.email}`;
+/** Every "talk to us" CTA points here. */
+export const bookPath = (lang: Lang) => (lang === 'en' ? '/book-discovery-call' : '/id/jadwalkan-discovery-call');
+/** Full list of what we do. */
+export const servicesPath = (lang: Lang) => (lang === 'en' ? '/what-we-do' : '/id/layanan-kami');
+/** Cal.com event (embedded on the book page). */
+export const cal = { link: 'paistudio/qustomer-discovery-call', namespace: 'qustomer-discovery-call', origin: 'https://app.cal.com', url: 'https://cal.com/paistudio/qustomer-discovery-call' } as const;

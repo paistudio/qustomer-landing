@@ -1,13 +1,46 @@
 ---
-import { site } from '@/config/site';
+import { Image } from 'astro:assets';
+import icon from '@/assets/icon-qustomer.svg';
+import { site, getCopy, contactHref, pathFor, type Lang } from '@/config/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getCopy(lang);
 const year = new Date().getFullYear();
 ---
-<footer class="border-t border-line bg-surface-alt">
-  <div class="container-page flex flex-col gap-4 py-10 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
-    <p>&copy; {year} {site.name}. All rights reserved.</p>
-    <ul class="flex gap-6">
-      <li><a href="/privacy" class="hover:text-ink">Privacy</a></li>
-      <li><a href="/terms" class="hover:text-ink">Terms</a></li>
-    </ul>
+<footer class="px-4 pt-8 pb-4 sm:px-6 sm:pb-6">
+  <div class="mx-auto max-w-7xl rounded-3xl bg-brand-600 text-white">
+    <slot name="cta" />
+
+    <div class="px-6 py-12 sm:px-14 sm:py-14">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <a href={pathFor(lang)} class="inline-flex items-center gap-3 text-xl font-bold" aria-label={`${site.name} home`}>
+            <span class="grid size-9 place-items-center rounded-xl bg-white"><Image src={icon} alt="" width={24} height={24} class="size-6" /></span>
+            {site.name}
+          </a>
+          <p class="mt-4 max-w-xs text-brand-100">{t.footer.tagline}</p>
+          <a href={contactHref} class="mt-4 inline-block font-semibold underline underline-offset-4 hover:text-mint-100">{site.email}</a>
+        </div>
+
+        <nav class="grid gap-10 sm:grid-cols-3 lg:col-span-8" aria-label="Footer">
+          {t.footer.cols.map((c) => (
+            <div>
+              <h2 class="text-sm font-semibold text-mint-100">{c.title}</h2>
+              <ul class="mt-4 space-y-3">
+                {c.links.map((l) => (
+                  <li><a href={l.href} class="text-brand-100 hover:text-white">{l.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </div>
+
+      <div class="mt-12 flex flex-col gap-3 border-t border-white/25 pt-6 text-sm text-brand-100 sm:flex-row sm:items-center sm:justify-between">
+        <p>&copy; {year} {site.name}. {t.footer.rights}</p>
+        <a href="/login" rel="nofollow" class="hover:text-white">{t.footer.login}</a>
+      </div>
+    </div>
   </div>
 </footer>

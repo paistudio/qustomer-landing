@@ -1,12 +1,16 @@
 ---
-import { site } from '@/config/site';
+import type { Copy } from '@/i18n/en';
+import { bookPath } from '@/config/site';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+const c = t.finalCta;
 ---
-<section id="get-started" class="section" aria-labelledby="cta-title">
-  <div class="container-page">
-    <div class="rounded-3xl bg-brand-600 px-6 py-16 text-center text-white sm:px-16">
-      <h2 id="cta-title" class="h2">Ready to answer customers faster?</h2>
-      <p class="mx-auto mt-4 max-w-xl text-lg text-brand-100">Join teams who cut first-response time in half.</p>
-      <a href={site.cta.href} class="btn mt-8 bg-white text-brand-700 hover:bg-brand-50">{site.cta.label}</a>
-    </div>
+<section id="contact" class="border-b border-white/25 px-6 py-14 sm:px-14 sm:py-20" aria-labelledby="cta-title">
+  <h2 id="cta-title" class="h2 max-w-2xl sm:text-5xl">{c.h2}</h2>
+  <p class="mt-4 max-w-xl text-lg text-brand-100">{c.p}</p>
+  <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+    <a href={bookPath(t.lang)} class="btn bg-white text-brand-700 hover:bg-brand-50">{c.button}</a>
+    <p class="text-brand-100">{c.note}</p>
   </div>
 </section>

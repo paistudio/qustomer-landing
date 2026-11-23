@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Caveman mode ON: reply ultra-terse per .claude/skills/caveman/SKILL.md. Code, page copy, docs, commits stay normal English. User says \"normal mode\" to stop.'"
+          }
+        ]
+      }
+    ]
+  }
+}

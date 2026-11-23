@@ -1,0 +1,153 @@
+---
+// Decorative, CSS-only animated mini scene for one service group. 0 KB JS.
+// Static (final state) by default; animates only when the visitor has not asked for reduced motion.
+interface Props { kind: number; vis: string[] }
+const { kind, vis } = Astro.props;
+const v = (i: number) => vis[i] ?? '';
+const bubbleIn = 'rounded-2xl rounded-bl-md bg-surface px-4 py-2.5 text-sm font-semibold text-ink border border-line shadow-(--shadow-card)';
+const bubbleOut = 'rounded-2xl rounded-br-md bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white';
+const pill = 'inline-flex items-center rounded-full bg-mint-300 px-3 py-1 text-sm font-semibold text-ink';
+const funnelW = [100, 82, 64, 46, 30];
+---
+<div class="sv relative flex aspect-4/3 items-center justify-center overflow-hidden rounded-3xl border border-line bg-surface-alt p-5 sm:p-8" aria-hidden="true">
+  {kind === 0 && (
+    <div class="flex w-full items-center justify-between gap-3">
+      <ul class="space-y-2">
+        {[0, 1, 2, 3].map((i) => <li class={`a${i + 1} sv-from-left rounded-xl border border-line bg-surface px-3 py-2 text-sm font-semibold shadow-(--shadow-card)`}>{v(i)}</li>)}
+      </ul>
+      <div class="sv-flow h-0.5 flex-1 rounded-full bg-brand-500"></div>
+      <div class="a5 sv-pop w-2/5 rounded-2xl bg-brand-600 p-4 text-white">
+        <p class="font-display text-sm sm:text-base">{v(4)}</p>
+        <div class="mt-3 space-y-1.5"><div class="h-1.5 w-full rounded-full bg-white/60"></div><div class="h-1.5 w-4/5 rounded-full bg-white/40"></div><div class="h-1.5 w-3/5 rounded-full bg-white/40"></div></div>
+      </div>
+    </div>
+  )}
+
+  {kind === 1 && (
+    <div class="flex w-full flex-col gap-3">
+      <p class={`a1 sv-up max-w-[80%] self-start ${bubbleIn}`}>{v(0)}</p>
+      <p class="a2 sv-dots self-end"><span class="sv-dot"></span><span class="sv-dot"></span><span class="sv-dot"></span></p>
+      <p class={`a3 sv-up max-w-[80%] self-end ${bubbleOut}`}>{v(1)}</p>
+      <p class={`a4 sv-up self-end ${pill}`}>{v(2)}</p>
+    </div>
+  )}
+
+  {kind === 2 && (
+    <div class="flex w-full flex-col gap-3">
+      <p class={`a1 sv-up max-w-[80%] self-start ${bubbleIn}`}>{v(0)}</p>
+      <ul class="space-y-2 self-end">
+        {[1, 2, 3].map((i) => (
+          <li class={`a${i + 1} sv-up flex items-center gap-2 rounded-xl bg-surface px-3 py-2 text-sm font-semibold border border-line`}>
+            <span class="grid size-5 place-items-center rounded-full bg-brand-600 text-xs text-white">✓</span>{v(i)}
+          </li>
+        ))}
+      </ul>
+      <p class={`a5 sv-pop self-end ${pill}`}>{v(4)}</p>
+    </div>
+  )}
+
+  {kind === 3 && (
+    <div class="w-full rounded-2xl border border-line bg-surface p-5 shadow-(--shadow-card)">
+      <p class="font-display text-lg">{v(0)}</p>
+      <ul class="a1 sv-up mt-4 grid grid-cols-3 gap-2">
+        {[1, 2, 3].map((i) => <li class={`${i === 2 ? 'sv-pick' : ''} rounded-xl border border-line px-2 py-3 text-center text-sm font-semibold`}>{v(i)}</li>)}
+      </ul>
+      <p class={`a5 sv-pop mt-4 ${pill}`}>{v(4)}</p>
+    </div>
+  )}
+
+  {kind === 4 && (
+    <div class="flex w-full flex-col gap-3">
+      <div class="a1 sv-up max-w-[85%] self-start"><p class="mb-1 text-xs font-semibold text-ink-muted">{v(0)}</p><p class={bubbleOut}>{v(1)}</p></div>
+      <div class="a2 sv-up max-w-[85%] self-start"><p class="mb-1 text-xs font-semibold text-ink-muted">{v(2)}</p><p class={bubbleOut}>{v(3)}</p></div>
+      <p class={`a4 sv-up max-w-[80%] self-end rounded-2xl rounded-br-md bg-mint-300 px-4 py-2.5 text-sm font-semibold text-ink`}>{v(4)}</p>
+    </div>
+  )}
+
+  {kind === 5 && (
+    <div class="flex w-full items-center gap-3">
+      <p class={`a1 sv-up w-2/5 ${bubbleIn}`}>{v(0)}</p>
+      <div class="sv-flow h-0.5 flex-1 rounded-full bg-brand-500"></div>
+      <div class="a3 sv-pop w-1/2 rounded-2xl border border-line bg-surface p-4 shadow-(--shadow-card)">
+        <div class="flex items-center gap-2"><span class="size-6 rounded-full bg-mint-300"></span><p class="font-display text-sm">{v(1)}</p></div>
+        <p class="mt-3 text-xs text-ink-muted">{v(2)}</p>
+        <p class="a4 sv-up mt-1 text-xs font-semibold text-brand-600">{v(3)}</p>
+      </div>
+    </div>
+  )}
+
+  {kind === 6 && (
+    <ol class="w-full space-y-2.5">
+      {funnelW.map((w, i) => (
+        <li class="flex items-center gap-3 text-xs font-semibold sm:text-sm">
+          <span class="w-24 shrink-0 text-ink-muted sm:w-28">{v(i)}</span>
+          <span class={`a${i + 1} sv-grow h-6 rounded-md`} style={`width:${w}%;background:color-mix(in oklab,var(--color-brand-500) ${100 - i * 25}%,var(--color-mint-300) ${i * 25}%)`}></span>
+        </li>
+      ))}
+    </ol>
+  )}
+
+  {kind === 7 && (
+    <ol class="grid w-full grid-cols-2 gap-3">
+      {[0, 1, 2, 3].map((i) => (
+        <li class={`sv-hl sv-hl-${i} flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-4`}>
+          <span class="grid size-7 shrink-0 place-items-center rounded-full bg-brand-100 font-display text-sm text-brand-700">{i + 1}</span>
+          <span class="font-display">{v(i)}</span>
+        </li>
+      ))}
+    </ol>
+  )}
+</div>
+
+<style>
+  .sv-dots { display: none; gap: 0.3rem; border-radius: 9999px; background: var(--color-surface); border: 1px solid var(--color-line); padding: 0.6rem 0.8rem; }
+  .sv-dot { width: 0.4rem; height: 0.4rem; border-radius: 9999px; background: var(--color-ink-muted); }
+  .sv-flow { transform-origin: left; }
+  .sv-pick { background: var(--color-brand-600); border-color: var(--color-brand-600); color: var(--color-surface); }
+  .sv-hl-0 { border-color: var(--color-brand-600); }
+
+  @media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+    /* Hold every scene at its first frame until it scrolls into view (script adds data-in). */
+    .sv:not([data-in]) * { animation-play-state: paused !important; }
+    .sv .a1, .sv .a2, .sv .a3, .sv .a4, .sv .a5 { animation-duration: 8s; animation-iteration-count: infinite; animation-timing-function: ease-out; }
+    .sv .a1 { animation-name: s1; } .sv .a2 { animation-name: s2; } .sv .a3 { animation-name: s3; } .sv .a4 { animation-name: s4; } .sv .a5 { animation-name: s5; }
+    .sv-from-left { --x: -14px; --y: 0px; }
+    .sv-up { --x: 0px; --y: 10px; }
+    .sv-pop { --x: 0px; --y: 0px; }
+    .sv-grow { transform-origin: left; --x: 0px; --y: 0px; }
+    .sv-flow { animation: flow 8s ease-in-out infinite; }
+    .sv-dots { display: inline-flex; }
+    .sv-dot { animation: bounce 0.9s ease-in-out infinite; }
+    .sv-dot:nth-child(2) { animation-delay: 0.15s; } .sv-dot:nth-child(3) { animation-delay: 0.3s; }
+    .sv-pick { animation: pick 8s ease-in-out infinite; }
+    .sv-hl { animation: hl 8s ease-in-out infinite; }
+    .sv-hl-0 { animation-delay: 0s; } .sv-hl-1 { animation-delay: 2s; } .sv-hl-2 { animation-delay: 4s; } .sv-hl-3 { animation-delay: 6s; }
+
+    @keyframes s1 { 0%, 4% { opacity: 0; translate: var(--x) var(--y); scale: 0.96 1; } 12%, 90% { opacity: 1; translate: 0 0; scale: 1; } 100% { opacity: 0; } }
+    @keyframes s2 { 0%, 20% { opacity: 0; translate: var(--x) var(--y); scale: 0.96 1; } 28%, 90% { opacity: 1; translate: 0 0; scale: 1; } 100% { opacity: 0; } }
+    @keyframes s3 { 0%, 36% { opacity: 0; translate: var(--x) var(--y); scale: 0.96 1; } 44%, 90% { opacity: 1; translate: 0 0; scale: 1; } 100% { opacity: 0; } }
+    @keyframes s4 { 0%, 52% { opacity: 0; translate: var(--x) var(--y); scale: 0.96 1; } 60%, 90% { opacity: 1; translate: 0 0; scale: 1; } 100% { opacity: 0; } }
+    @keyframes s5 { 0%, 68% { opacity: 0; translate: var(--x) var(--y); scale: 0.96 1; } 76%, 90% { opacity: 1; translate: 0 0; scale: 1; } 100% { opacity: 0; } }
+    /* typing dots: visible only between the question and the answer */
+    .sv-dots.a2 { animation-name: typing; }
+    @keyframes typing { 0%, 12% { opacity: 0; } 18%, 40% { opacity: 1; } 46%, 100% { opacity: 0; } }
+    .sv-grow { animation-name: s1; }
+    .sv-grow.a2 { animation-name: s2; } .sv-grow.a3 { animation-name: s3; } .sv-grow.a4 { animation-name: s4; } .sv-grow.a5 { animation-name: s5; }
+    @keyframes flow { 0%, 10% { transform: scaleX(0); } 40%, 90% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+    @keyframes bounce { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+    @keyframes pick { 0%, 40% { background: var(--color-surface); border-color: var(--color-line); color: var(--color-ink); } 50%, 90% { background: var(--color-brand-600); border-color: var(--color-brand-600); color: var(--color-surface); } 100% { background: var(--color-surface); border-color: var(--color-line); color: var(--color-ink); } }
+    @keyframes hl { 0%, 20% { border-color: var(--color-brand-600); box-shadow: var(--shadow-card); } 28%, 100% { border-color: var(--color-line); box-shadow: none; } }
+  }
+</style>
+
+<script>
+  // Play each scene only while it is on screen. Without JS (or with reduced motion) the scene stays static.
+  const scenes = document.querySelectorAll<HTMLElement>('.sv');
+  if (scenes.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.target.toggleAttribute('data-in', e.isIntersecting)),
+      { threshold: 0.35 },
+    );
+    scenes.forEach((el) => io.observe(el));
+  }
+</script>

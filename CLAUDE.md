@@ -7,7 +7,7 @@ Use `caveman` skill for chat (terse, no filler). Code, page copy, docs, commits 
 
 ## Stack
 - Astro 7 (static output, `src/pages` routing) · Tailwind CSS v4 via `@tailwindcss/vite` · TypeScript strict
-- `@astrojs/sitemap` · self-hosted Inter Variable (`@fontsource-variable/inter`, latin preloaded)
+- `@astrojs/sitemap` · self-hosted Cal Sans (headings) + Inter Variable (body), latin preloaded
 - Path alias `@/*` → `src/*`
 
 ## Commands
@@ -16,21 +16,26 @@ Use `caveman` skill for chat (terse, no filler). Code, page copy, docs, commits 
 - `npm run preview` — serve `dist/`
 
 ## Map
-- `src/config/site.ts` — brand, nav, CTA, SEO defaults. **Single source of truth.**
+- `docs/QUSTOMER.md` — product, positioning, copy rules, decisions, TODOs. **Read before writing copy.**
+- `src/config/site.ts` — brand, contact, language helpers. **Single source of truth.**
+- `src/i18n/{en,id}.ts` — all page copy. English default (`/`), Indonesian (`/id`). `id` is typed against `en`.
+- `src/scripts/bubbles-scene.ts` — lazy three.js hero scene. `src/components/Landing.astro` composes the page.
+- `src/i18n/pages-{en,id}.ts` — copy for inner SEO/legal pages (9 per language, Indonesian slugs). `src/config/pages.ts` registry, `src/pages/[...slug].astro` route, `src/components/InfoPage.astro` template. Footer links live in `footer.cols` of `en.ts`/`id.ts` and must match page slugs.
+- `src/pages/login.astro` — superadmin sign-in prototype (noindex, no auth wired).
 - `src/styles/global.css` — `@theme` tokens + `@utility` primitives. Mirror of `DESIGN.md`.
 - `src/layouts/Base.astro` — html shell, font preload, header/footer
 - `src/components/SEO.astro` — title, meta, canonical, OG/Twitter, JSON-LD
-- `src/components/sections/*` — one section per file
+- `src/components/sections/*` — one section per file (Hero, Channels, Assistant, Funnel, Team, FAQ, CTA)
 - `src/pages/` — `index`, `404`, `robots.txt.ts`
-- `.claude/skills/` — `caveman`, `landing-section`, `kill-slop`, `seo-perf-audit`
+- `.claude/skills/` — `caveman`, `landing-section`, `kill-slop`, `seo-perf-audit`, `threejs-3d`
 
 ## Rules
 1. Read `DESIGN.md` before any UI work. Use the `landing-section` skill for sections, then the `kill-slop` checklist before finishing.
 2. Tokens only — no hex/rgb or arbitrary color values in components.
-3. No client JS unless native HTML/CSS can't do it. Islands: `client:visible`/`client:idle` only. Ask before adding any UI framework.
+3. No client JS unless native HTML/CSS can't do it (exception: the lazy 3D hero scene and the tiny language redirect). Islands: `client:visible`/`client:idle` only. Ask before adding any UI framework.
 4. Images via `astro:assets` `<Image>` from `src/assets/`, always `alt` + dimensions.
 5. No new dependencies, fonts, analytics or third-party scripts without asking.
-6. One `<h1>` per page; every page passes `title`/`description` to `<Base>`.
+6. One `<h1>` per page; every page passes `lang`, `title`, `description` to `<Base>`. Every user-facing string goes in both `src/i18n/` files.
 7. Tailwind v4: custom classes = `@utility`, important = suffix `px-4!`, config lives in CSS (no `tailwind.config.js`).
 8. After changes: `npm run build`. Before shipping: `seo-perf-audit` skill.
 

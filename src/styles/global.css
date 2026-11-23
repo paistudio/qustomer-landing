@@ -1,27 +1,37 @@
 @import 'tailwindcss';
 
-/* Design tokens — mirror DESIGN.md. Change tokens here, never hardcode hex in components. */
-@theme {
+/* Design tokens — mirror DESIGN.md. Change tokens here, never hardcode hex in components.
+   `static` keeps every token as a CSS variable (the 3D scene reads them at runtime). */
+@theme static {
+  --font-display: 'Cal Sans', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --color-brand-50: oklch(0.97 0.02 277);
-  --color-brand-100: oklch(0.93 0.04 277);
-  --color-brand-500: oklch(0.58 0.22 277);
-  --color-brand-600: oklch(0.51 0.23 277);
-  --color-brand-700: oklch(0.45 0.21 277);
+  /* Brand blue — from the logo (#1A6FFB ≈ brand-500) */
+  --color-brand-50: oklch(0.97 0.02 260);
+  --color-brand-100: oklch(0.93 0.05 260);
+  --color-brand-500: oklch(0.6 0.21 260);
+  --color-brand-600: oklch(0.52 0.22 260);
+  --color-brand-700: oklch(0.45 0.2 260);
 
-  --color-ink: oklch(0.21 0.02 265);       /* primary text */
-  --color-ink-muted: oklch(0.45 0.02 265); /* secondary text, >= 4.5:1 on white */
+  /* Brand mint — logo gradient end (#AEFFA8 ≈ mint-300). Fills and highlights only, never text on white. */
+  --color-mint-100: oklch(0.97 0.05 142);
+  --color-mint-300: oklch(0.93 0.14 142);
+
+  --color-ink: oklch(0.18 0.01 262);        /* primary text */
+  --color-ink-muted: oklch(0.48 0.01 262); /* secondary text, >= 4.5:1 on white */
   --color-surface: oklch(1 0 0);
-  --color-surface-alt: oklch(0.98 0.005 265);
-  --color-line: oklch(0.92 0.01 265);
+  --color-surface-alt: oklch(0.975 0.004 262);
+  --color-line: oklch(0.92 0.004 262);
 
-  --radius-card: 1rem;
+  --radius-card: 1.25rem;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.08);
 }
 
 @layer base {
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; font-synthesis: none; }
+  [id] { scroll-margin-top: 6rem; }
+  /* Cal.com-style type: Cal Sans display for headings, Inter for reading text. */
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.015em; }
   body { @apply bg-surface text-ink font-sans antialiased; text-rendering: optimizeLegibility; }
   :focus-visible { @apply outline-2 outline-offset-2 outline-brand-600; }
   @media (prefers-reduced-motion: reduce) {
@@ -32,12 +42,13 @@
 
 /* Reusable primitives (Tailwind v4 @utility so they work with variants and @apply) */
 @utility container-page { @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8; }
-@utility section { @apply py-16 sm:py-24; }
-@utility eyebrow { @apply text-sm font-semibold tracking-wide text-brand-600 uppercase; }
-@utility h1 { @apply text-4xl font-bold tracking-tight text-balance sm:text-6xl; }
-@utility h2 { @apply text-3xl font-bold tracking-tight text-balance sm:text-4xl; }
+@utility section { @apply py-20 sm:py-28; }
+@utility eyebrow { @apply inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 font-display text-sm text-ink-muted before:size-1.5 before:rounded-full before:bg-brand-500 before:content-['']; }
+@utility h1 { @apply text-4xl leading-[1.05] text-balance sm:text-6xl; }
+@utility h2 { @apply text-3xl leading-[1.08] text-balance sm:text-5xl; }
 @utility lead { @apply text-lg text-ink-muted text-pretty sm:text-xl; }
-@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold transition-colors min-h-11; }
+@utility btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-display text-[15px] transition-colors; }
 @utility btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-700; }
-@utility btn-ghost { @apply btn text-ink hover:bg-surface-alt; }
+@utility btn-ghost { @apply btn border border-line bg-surface text-ink hover:bg-surface-alt; }
 @utility card { @apply rounded-(--radius-card) border border-line bg-surface p-6 shadow-(--shadow-card); }
+@utility field { @apply block min-h-11 w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-ink-muted; }

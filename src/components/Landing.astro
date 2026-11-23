@@ -1,0 +1,42 @@
+---
+import Base from '@/layouts/Base.astro';
+import BubbleCanvas from '@/components/BubbleCanvas.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Channels from '@/components/sections/Channels.astro';
+import Assistant from '@/components/sections/Assistant.astro';
+import Funnel from '@/components/sections/Funnel.astro';
+import Process from '@/components/sections/Process.astro';
+import Team from '@/components/sections/Team.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import CTA from '@/components/sections/CTA.astro';
+import { getCopy, site, type Lang } from '@/config/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getCopy(lang);
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: lang,
+  mainEntity: t.faq.items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base
+  lang={lang}
+  title={t.meta.title}
+  description={t.meta.description}
+  jsonLd={faqLd}
+  localized
+  detectLang={lang === site.defaultLang}
+>
+  <BubbleCanvas cloud={t.hero.cloud} />
+  <Hero t={t} />
+  <Channels t={t} />
+  <Assistant t={t} />
+  <Funnel t={t} />
+  <Process t={t} />
+  <Team t={t} />
+  <FAQ t={t} />
+  <CTA slot="cta" t={t} />
+</Base>

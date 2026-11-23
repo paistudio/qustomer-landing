@@ -1,19 +1,28 @@
 ---
-import { site } from '@/config/site';
+import { site, getCopy, pathFor, type Lang } from '@/config/site';
 
 export interface Props {
-  title?: string;
-  description?: string;
+  /** Full <title>, already composed. */
+  title: string;
+  description: string;
+  lang: Lang;
   image?: string;
   noindex?: boolean;
+  /** Emit hreflang alternates (only for pages that exist in every language). */
+  localized?: boolean;
+  /** Per-language paths for a page that exists in both languages (inner pages). Takes precedence over `localized`. */
+  alternates?: Record<Lang, string>;
   type?: 'website' | 'article';
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
-const { title, description = site.description, image = site.ogImage, noindex = false, type = 'website', jsonLd } = Astro.props;
+const { title, description, lang, image = site.ogImage, noindex = false, localized = false, alternates, type = 'website', jsonLd } = Astro.props;
 
-const fullTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
+const langs: Lang[] = ['en', 'id'];
+const hasAlt = localized || !!alternates;
+const altPath = (l: Lang) => alternates?.[l] ?? pathFor(l);
+const otherLangs = langs.filter((l) => l !== lang);
 
 const orgLd = {
   '@context': 'https://schema.org',
@@ -24,16 +33,20 @@ const orgLd = {
 };
 const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---
-<title>{fullTitle}</title>
+<title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
 <meta name="theme-color" content={site.themeColor} />
 
+{hasAlt && langs.map((l) => <link rel="alternate" hreflang={l} href={new URL(altPath(l), Astro.site).href} />)}
+{hasAlt && <link rel="alternate" hreflang="x-default" href={new URL(altPath(site.defaultLang), Astro.site).href} />}
+
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content={site.name} />
-<meta property="og:locale" content={site.locale} />
-<meta property="og:title" content={fullTitle} />
+<meta property="og:locale" content={getCopy(lang).ogLocale} />
+{hasAlt && otherLangs.map((l) => <meta property="og:locale:alternate" content={getCopy(l).ogLocale} />)}
+<meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImage} />
@@ -42,7 +55,7 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content={site.twitter} />
-<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
 

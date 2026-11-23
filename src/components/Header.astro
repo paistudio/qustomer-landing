@@ -1,15 +1,51 @@
 ---
-import { site } from '@/config/site';
+import { Image } from 'astro:assets';
+import logo from '@/assets/logo-qustomer.svg';
+import { site, getCopy, pathFor, bookPath, type Lang } from '@/config/site';
+
+interface Props { lang: Lang; localized?: boolean; alternates?: Record<Lang, string> }
+const { lang, localized = false, alternates } = Astro.props;
+const t = getCopy(lang);
+const langs: Lang[] = ['en', 'id'];
+const home = pathFor(lang);
+// On the landing page, section links stay on the page; elsewhere they point back to it.
+const navHref = (h: string) => (localized || h.startsWith('/') ? h : `${home}${h}`);
 ---
-<header class="sticky top-0 z-40 border-b border-line/60 bg-surface/80 backdrop-blur">
-  <nav class="container-page flex h-16 items-center justify-between" aria-label="Main">
-    <a href="/" class="flex items-center gap-2 font-bold text-lg" aria-label={`${site.name} home`}>
-      <img src="/favicon.svg" alt="" width="28" height="28" />
-      {site.name}
+<header class="pointer-events-none sticky top-0 z-40 px-3 py-3 sm:px-4">
+  <nav class="pointer-events-auto mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-2xl border border-line bg-surface/80 px-4 shadow-(--shadow-card) backdrop-blur" aria-label={t.a11y.mainNav}>
+    <a href={home} class="flex shrink-0 items-center" aria-label={`${site.name}`}>
+      <Image src={logo} alt={site.name} width={141} height={28} loading="eager" class="h-7 w-auto" />
     </a>
-    <ul class="hidden items-center gap-8 text-sm font-medium text-ink-muted md:flex">
-      {site.nav.map((n) => <li><a href={n.href} class="hover:text-ink">{n.label}</a></li>)}
+
+    <ul class="hidden items-center gap-8 font-display text-[15px] text-ink-muted md:flex">
+      {t.nav.map((n) => <li><a href={navHref(n.href)} class="hover:text-ink">{n.label}</a></li>)}
     </ul>
-    <a href={site.cta.href} class="btn-primary px-4! py-2! text-sm">{site.cta.label}</a>
+
+    <div class="flex items-center gap-3">
+      <ul class="flex items-center text-sm font-semibold" aria-label={t.a11y.langSwitch}>
+        {langs.map((l) => (
+          <li>
+            <a
+              href={alternates?.[l] ?? pathFor(l)}
+              hreflang={l}
+              lang={l}
+              data-lang={l}
+              aria-current={l === lang ? 'true' : undefined}
+              class="inline-flex min-h-11 min-w-9 items-center justify-center rounded-full px-2 text-ink-muted hover:text-ink aria-[current=true]:text-brand-600"
+            >{l.toUpperCase()}</a>
+          </li>
+        ))}
+      </ul>
+      <a href={bookPath(lang)} class="btn-primary hidden min-h-9! px-4! py-1.5! sm:inline-flex">{t.cta}</a>
+    </div>
   </nav>
 </header>
+
+<script>
+  // Remember an explicit language choice so `/` stops auto-redirecting.
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach((a) => {
+    a.addEventListener('click', () => {
+      try { localStorage.setItem('qustomer-lang', a.dataset.lang ?? 'en'); } catch { /* storage blocked */ }
+    });
+  });
+</script>

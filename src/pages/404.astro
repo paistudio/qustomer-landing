@@ -1,10 +1,13 @@
 ---
 import Base from '@/layouts/Base.astro';
+import { getCopy, site } from '@/config/site';
+
+const t = getCopy('en');
 ---
-<Base title="Page not found" noindex>
-  <section class="container-page section text-center">
+<Base lang="en" title={`${t.notFound.title} | ${site.name}`} description={t.meta.description} noindex>
+  <section class="container-page section">
     <p class="eyebrow">404</p>
-    <h1 class="h1 mt-4">Page not found</h1>
-    <a href="/" class="btn-primary mt-8">Back home</a>
+    <h1 class="h1 mt-4">{t.notFound.title}</h1>
+    <a href="/" class="btn-primary mt-8">{t.notFound.back}</a>
   </section>
 </Base>

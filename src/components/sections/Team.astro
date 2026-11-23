@@ -1,0 +1,38 @@
+---
+import type { Copy } from '@/i18n/en';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+const m = t.team;
+---
+<section id="team" class="section bg-surface-alt" aria-labelledby="team-title">
+  <div class="container-page">
+    <h2 id="team-title" class="h2 max-w-3xl sm:text-5xl">{m.h2}</h2>
+
+    <div class="mt-14 grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-6">
+        <h3 class="text-sm font-semibold text-ink-muted">{m.notsTitle}</h3>
+        <ul class="mt-4 space-y-3">
+          {m.nots.map((x) => (
+            <li class="text-2xl font-semibold tracking-tight text-ink-muted decoration-brand-500 decoration-2 line-through sm:text-3xl">{x}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8">
+        <p class="text-xl leading-relaxed text-pretty sm:text-2xl">{m.we}</p>
+      </div>
+    </div>
+
+    <div class="mt-16 border-t border-line pt-10">
+      <h3 class="text-sm font-semibold text-ink-muted">{m.storiesTitle}</h3>
+      <div class="mt-6 grid gap-10 md:grid-cols-2 md:gap-16">
+        {m.stories.map((s) => (
+          <div>
+            <h4 class="text-lg font-semibold">{s.t}</h4>
+            <p class="mt-2 max-w-md text-ink-muted">{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

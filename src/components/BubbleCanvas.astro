@@ -1,0 +1,23 @@
+---
+interface Props { cloud: { tag: string; msg: string }[] }
+const { cloud } = Astro.props;
+---
+<!-- Decorative 3D layer. Fixed, click-through, above content, below the sticky header. -->
+<canvas
+  id="bubbles"
+  aria-hidden="true"
+  data-cloud={JSON.stringify(cloud)}
+  class="pointer-events-none fixed inset-0 z-30 size-full opacity-0 transition-opacity duration-700 in-data-[scene=on]:opacity-100"
+></canvas>
+
+<script>
+  // Load three.js only after the page is idle, and never for reduced-motion users (static fallback stays).
+  const canvas = document.getElementById('bubbles');
+  if (canvas instanceof HTMLCanvasElement && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const start = () => {
+      import('@/scripts/bubbles-scene').then((m) => m.mountScene(canvas)).catch(() => { /* no WebGL: keep fallback */ });
+    };
+    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 2500 });
+    else setTimeout(start, 800);
+  }
+</script>

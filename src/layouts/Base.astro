@@ -1,29 +1,42 @@
 ---
 import '@fontsource-variable/inter/wght.css';
+import '@fontsource/cal-sans/400.css';
+import calLatin from '@fontsource/cal-sans/files/cal-sans-latin-400-normal.woff2?url';
 import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '@/styles/global.css';
 import SEO, { type Props as SEOProps } from '@/components/SEO.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-import { site } from '@/config/site';
+import { getCopy, site } from '@/config/site';
 
-type Props = SEOProps;
-const props = Astro.props;
+interface Props extends SEOProps {
+  /** Redirect Indonesian browsers from `/` to `/id` (unless the visitor chose a language). */
+  detectLang?: boolean;
+  /** No header/footer (login). */
+  bare?: boolean;
+}
+const { detectLang = false, bare = false, ...seo } = Astro.props;
+const t = getCopy(seo.lang);
+
+// Tiny inline redirect, runs before paint. Only `/` redirects; `/id` never redirects away.
+const detectScript = `(function(){try{if(localStorage.getItem('${site.langStorageKey}'))return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';if(/^(id|in)(-|$)/i.test(l))location.replace('/id')}catch(e){}})();`;
 ---
 <!doctype html>
-<html lang={site.lang}>
+<html lang={seo.lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {detectLang && <script is:inline set:html={detectScript} />}
     <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={calLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <SEO {...props} />
+    <SEO {...seo} />
   </head>
   <body>
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2">Skip to content</a>
-    <Header />
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2">{t.a11y.skip}</a>
+    {!bare && <Header lang={seo.lang} localized={seo.localized} alternates={seo.alternates} />}
     <main id="main"><slot /></main>
-    <Footer />
+    {!bare && <Footer lang={seo.lang}><slot name="cta" slot="cta" /></Footer>}
   </body>
 </html>
