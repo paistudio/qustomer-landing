@@ -8,6 +8,8 @@ export type Lang = 'en' | 'id';
 export const site = {
   name: 'Qustomer',
   domain: 'qustomer.id',
+  /** The team app (sign-in lives here). */
+  appUrl: 'https://app.qustomer.id/',
   email: 'team@qustomer.id',
   twitter: '@qustomer',
   ogImage: '/og.png', // TODO 1200x630, put in /public

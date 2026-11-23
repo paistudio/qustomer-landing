@@ -39,7 +39,7 @@ const year = new Date().getFullYear();
 
       <div class="mt-12 flex flex-col gap-3 border-t border-white/25 pt-6 text-sm text-brand-100 sm:flex-row sm:items-center sm:justify-between">
         <p>&copy; {year} {site.name}. {t.footer.rights}</p>
-        <a href="/login" rel="nofollow" class="hover:text-white">{t.footer.login}</a>
+        <a href={site.appUrl} rel="nofollow noopener" class="hover:text-white">{t.footer.login}</a>
       </div>
     </div>
   </div>
