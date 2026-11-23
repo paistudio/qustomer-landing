@@ -304,13 +304,13 @@ export const pagesEn: PagesBundle = {
         {
           h2: '1. Who we are',
           paras: [
-            'Qustomer provides a service that sets up and runs customer conversations for businesses. It is operated by [TODO: legal entity name and registered address]. For privacy questions, contact [TODO: data contact name] at hello@qustomer.id.',
+            'Qustomer provides a service that sets up and runs customer conversations for businesses. It is operated by PT Pilar Antar Informasi, Jaya Harmoni JH4-3, Sidoarjo, Indonesia. For privacy questions, contact Akbar Putra, Founder at team@qustomer.id.',
           ],
         },
         {
           h2: '2. Data we collect on this website',
           paras: [
-            'This website does not use analytics or advertising cookies. The booking page loads a scheduling widget from Cal.com. When you book a call, the details you enter (such as your name, email and answers) are processed by Cal.com and passed to us, and Cal.com\u2019s own privacy policy applies to the widget. If you email us, we receive your email address and whatever you choose to tell us. We use it only to reply and to discuss working together, based on our legitimate interest in answering you or on your consent where the law requires it.',
+            'This website does not use advertising cookies. We use Vercel Web Analytics to count visits (pages viewed, referrer, country, device type). It sets no cookies and does not track you across sites or store your IP address. We also use Google Search Console, which reports how our pages appear in Google Search and does not run on your browser. The booking page loads a scheduling widget from Cal.com. When you book a call, the details you enter (such as your name, email and answers) are processed by Cal.com and passed to us, and Cal.com\u2019s own privacy policy applies to the widget. If you email us, we receive your email address and whatever you choose to tell us. We use it only to reply and to discuss working together, based on our legitimate interest in answering you or on your consent where the law requires it.',
           ],
         },
         {
@@ -359,7 +359,7 @@ export const pagesEn: PagesBundle = {
         {
           h2: '10. How long we keep it',
           paras: [
-            'We keep data only as long as needed to provide the service, as the client instructs, and as the law requires. After that it is deleted or anonymised. [TODO: confirm retention periods.]',
+            'We keep data only as long as needed to provide the service, as the client instructs, and as the law requires. After that it is deleted or anonymised. Data held under a client contract is kept for up to 24 months after the contract ends.',
           ],
         },
         {
@@ -377,7 +377,7 @@ export const pagesEn: PagesBundle = {
         {
           h2: '13. Changes and contact',
           paras: [
-            'We may update this policy and will change the date above when we do. Questions: hello@qustomer.id.',
+            'We may update this policy and will change the date above when we do. Questions: team@qustomer.id.',
           ],
         },
       ],
@@ -446,13 +446,13 @@ export const pagesEn: PagesBundle = {
         {
           h2: '9. Governing law and disputes',
           paras: [
-            'These terms are governed by the laws of Indonesia. We first try to resolve disputes in good faith. If that fails, they go to [TODO: court or BANI arbitration].',
+            'These terms are governed by the laws of Indonesia. We first try to resolve disputes in good faith. If that fails, they go to the District Court of Sidoarjo (Pengadilan Negeri Sidoarjo).',
           ],
         },
         {
           h2: '10. Contact',
           paras: [
-            'Qustomer, operated by [TODO: legal entity name and registered address]. Questions: hello@qustomer.id.',
+            'Qustomer, operated by PT Pilar Antar Informasi, Jaya Harmoni JH4-3, Sidoarjo, Indonesia. Questions: team@qustomer.id.',
           ],
         },
       ],

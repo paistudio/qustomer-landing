@@ -32,7 +32,7 @@ Use `caveman` skill for chat (terse, no filler). Code, page copy, docs, commits 
 ## Rules
 1. Read `DESIGN.md` before any UI work. Use the `landing-section` skill for sections, then the `kill-slop` checklist before finishing.
 2. Tokens only — no hex/rgb or arbitrary color values in components.
-3. No client JS unless native HTML/CSS can't do it (exception: the lazy 3D hero scene and the tiny language redirect). Islands: `client:visible`/`client:idle` only. Ask before adding any UI framework.
+3. No client JS unless native HTML/CSS can't do it (exceptions: the lazy 3D hero scene, the tiny language redirect, the on-scroll visual observer, and Vercel Web Analytics). Islands: `client:visible`/`client:idle` only. Ask before adding any UI framework.
 4. Images via `astro:assets` `<Image>` from `src/assets/`, always `alt` + dimensions.
 5. No new dependencies, fonts, analytics or third-party scripts without asking.
 6. One `<h1>` per page; every page passes `lang`, `title`, `description` to `<Base>`. Every user-facing string goes in both `src/i18n/` files.

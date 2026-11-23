@@ -16,8 +16,16 @@ const h = t.hero;
         <a href={bookPath(t.lang)} class="btn-primary">{h.primary}</a>
         <a href="#process" class="btn-ghost">{h.secondary}</a>
       </div>
-      <ul class="mt-10 flex flex-wrap gap-x-5 gap-y-1 text-sm font-semibold text-ink-muted">
-        {h.differ.map((d, i) => <li class={i === h.differ.length - 1 ? 'text-brand-600' : ''}>{d}</li>)}
+      <ul class="mt-10 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-base font-semibold text-ink-muted">
+        {h.differ.map((d, i) => i === h.differ.length - 1 ? (
+          <li class="relative text-brand-600">
+            <span>{d}</span>
+            <!-- Hand-drawn underline: draws itself once on load (static when motion is reduced). -->
+            <svg class="absolute -bottom-2.5 left-0 h-2.5 w-full" viewBox="0 0 200 12" preserveAspectRatio="none" fill="none" aria-hidden="true">
+              <path class="underline-draw" d="M3 8 C 38 3, 66 11, 102 6 S 168 3, 197 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" pathLength="1" vector-effect="non-scaling-stroke" />
+            </svg>
+          </li>
+        ) : <li>{d}</li>)}
       </ul>
     </div>
 
@@ -25,6 +33,7 @@ const h = t.hero;
     <div class="relative min-h-72 lg:col-span-5 lg:min-h-[28rem]" aria-hidden="true">
       <div
         data-bubble-anchor
+        data-hold
         data-scale="1"
         data-tag={h.anchor.tag}
         data-msg={h.anchor.msg}

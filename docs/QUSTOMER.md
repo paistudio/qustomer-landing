@@ -55,7 +55,7 @@ Every CTA (header, hero, closing CTA) goes to `/book-discovery-call` (EN) or `/i
 Services: whatsapp-lead-management, lead-follow-up, appointment-booking, whatsapp-business-api. Industries: beauty-wellness, education (**placeholders, confirm real target industries**). Guide: lead-response-time. Legal: privacy, terms (**drafts, `noindex` and out of the sitemap until counsel reviews; fill every `[TODO]` (entity name/address, data contact, retention, dispute forum), then remove `noindex` in `pages-*.ts` and the filter in `astro.config.mjs`**). Indonesian versions use Indonesian slugs under `/id/`. SEO rules: title <= 60 chars, description 110-160, one h1, hreflang pairs via `alternates`.
 
 ## Open TODOs
-- Confirm contact email (`site.email` in `src/config/site.ts`, currently `hello@qustomer.id`) and add a real booking/contact flow.
+- Contact email is `team@qustomer.id` (`site.email` in `src/config/site.ts`); confirm the mailbox exists. Add a real contact flow.
 - Add `public/og.png` (1200×630); set `PUBLIC_SITE_URL` in deploy env.
 - Add `/privacy` and `/terms` (both languages) and link them in the footer.
 - Confirm final name and domain.

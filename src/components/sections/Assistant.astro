@@ -4,6 +4,7 @@ import type { Copy } from '@/i18n/en';
 interface Props { t: Copy }
 const { t } = Astro.props;
 const a = t.assistant;
+const ask = t.channels.anchor; // the traveler keeps the customer's message here; the reply pops up beside it
 ---
 <section id="assistant" class="section" aria-labelledby="assistant-title">
   <div class="container-page grid items-center gap-12 lg:grid-cols-12">
@@ -11,27 +12,39 @@ const a = t.assistant;
       <h2 id="assistant-title" class="h2 max-w-xl">{a.h2}</h2>
       <ol class="mt-10 divide-y divide-line border-y border-line">
         {a.items.map((item, i) => (
-          <li class="grid grid-cols-[2.5rem_1fr] gap-x-2 py-5 sm:grid-cols-[3rem_14rem_1fr] sm:gap-x-4">
+          <li class="grid grid-cols-[2.5rem_1fr] gap-x-2 py-4">
             <span class="text-sm font-semibold text-brand-600 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="text-lg font-semibold">{item.t}</h3>
-            <p class="col-start-2 mt-1 text-ink-muted sm:col-start-3 sm:mt-0">{item.d}</p>
+            <p><span class="font-semibold">{item.t}.</span> <span class="text-ink-muted">{item.d}</span></p>
           </li>
         ))}
       </ol>
       <p class="mt-8 max-w-xl border-l-2 border-brand-500 pl-4 text-ink-muted">{a.note}</p>
     </div>
 
-    <!-- Lane (right): the traveler bubble becomes the assistant's reply here. -->
-    <div class="relative mx-auto aspect-square w-full max-w-sm lg:col-span-5" aria-hidden="true">
+    <!-- Lane (right): the traveler bubble is the assistant's instant reply. -->
+    <div data-play class="relative mx-auto aspect-square w-full max-w-md lg:col-span-5" aria-hidden="true">
       <div class="absolute inset-0 rounded-3xl bg-mint-100"></div>
       <div
         data-bubble-anchor
+        data-hold
+        data-scale="1"
+        data-tag={ask.tag}
+        data-msg={ask.msg}
+        class="absolute top-[32%] left-1/2 size-40 -translate-x-1/2 -translate-y-1/2"
+      ></div>
+      <!-- Reply: the 3D scene pops a mint bubble at [data-reply-anchor]; this flat copy shows only when the scene is off. -->
+      <div class="pop absolute right-6 bottom-20 max-w-[78%] rounded-3xl rounded-br-md bg-mint-300 px-5 py-3 shadow-(--shadow-card) in-data-[scene=on]:invisible" style="--i:2">
+        <p class="text-[0.65rem] font-semibold tracking-wide text-ink-muted uppercase">{a.anchor.tag}</p>
+        <p class="mt-0.5 font-semibold">{a.anchor.msg}</p>
+      </div>
+      <div
+        data-reply-anchor
         data-scale="1"
         data-tag={a.anchor.tag}
         data-msg={a.anchor.msg}
-        class="absolute top-1/2 left-1/2 size-40 -translate-x-1/2 -translate-y-1/2"
+        class="absolute top-[73%] left-[56%] size-8 -translate-x-1/2 -translate-y-1/2"
       ></div>
-      <p class="absolute bottom-5 left-1/2 -translate-x-1/2 text-xs font-semibold text-ink-muted">{a.laneCaption}</p>
+      <p class="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs font-semibold text-ink-muted">{a.laneCaption}</p>
     </div>
   </div>
 </section>

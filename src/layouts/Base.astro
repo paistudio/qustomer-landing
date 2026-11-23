@@ -5,6 +5,7 @@ import calLatin from '@fontsource/cal-sans/files/cal-sans-latin-400-normal.woff2
 import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '@/styles/global.css';
 import SEO, { type Props as SEOProps } from '@/components/SEO.astro';
+import Analytics from '@vercel/analytics/astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { getCopy, site } from '@/config/site';
@@ -32,11 +33,15 @@ const detectScript = `(function(){try{if(localStorage.getItem('${site.langStorag
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <SEO {...seo} />
+    {site.gscVerification && <meta name="google-site-verification" content={site.gscVerification} />}
+    {!bare && <Analytics />}
   </head>
   <body>
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2">{t.a11y.skip}</a>
     {!bare && <Header lang={seo.lang} localized={seo.localized} alternates={seo.alternates} />}
     <main id="main"><slot /></main>
     {!bare && <Footer lang={seo.lang}><slot name="cta" slot="cta" /></Footer>}
+    <script>import '@/scripts/play-on-view';</script>
+    {!bare && <script is:inline async src="https://qustomer.vercel.app/widget.js" data-key="wk_3fhmswtt1avvPGeNCtqQoW5adAvyNEgo" data-color="#4f46e5"></script>}
   </body>
 </html>

@@ -8,6 +8,8 @@ const n = f.stages.length;
 // Tier widths shrink 100% → 44%. Bubble scale shrinks with them so it fits through the neck.
 const widths = f.stages.map((_, i) => 100 - i * 14);
 const bubbleScale = [0.9, 0.8, 0.72, 0.64, 0.58];
+// Who "speaks" at each step: the customer asks and answers, the assistant replies, confirms and follows up.
+const sides = ['customer', 'assistant', 'customer', 'assistant', 'assistant'];
 ---
 <section id="how" class="section bg-surface-alt" aria-labelledby="how-title">
   <div class="container-page">
@@ -28,6 +30,7 @@ const bubbleScale = [0.9, 0.8, 0.72, 0.64, 0.58];
               <div
                 data-bubble-anchor
                 data-stage={i}
+                data-side={sides[i]}
                 data-scale={bubbleScale[i] ?? 0.6}
                 data-tag={s.tag}
                 data-msg={s.msg}

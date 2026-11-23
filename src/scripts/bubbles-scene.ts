@@ -25,7 +25,8 @@ import {
 } from 'three';
 
 interface Msg { tag: string; msg: string }
-interface Anchor { x: number; y: number; scale: number; msg: Msg; stage: number | null }
+type Side = 'customer' | 'assistant';
+interface Anchor { x: number; y: number; scale: number; msg: Msg; stage: number | null; hold: boolean; side: Side }
 interface Palette { body: Color; ink: string; tag: string }
 
 // Bubble body size in world units (px at z=0), and extrusion.
@@ -33,6 +34,8 @@ const W = 260;
 const H = 116;
 const R = 42;
 const DEPTH = 20;
+/** Hero cloud bubbles are drawn fainter than the traveler / reply bubbles. */
+const CLOUD_OPACITY = 1;
 const BEVEL = 8;
 const FOV = 30;
 
@@ -94,6 +97,7 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
 /** One 3D bubble: extruded body + a flat text plane on its front face. */
 class Bubble {
   readonly group = new Group();
+  private readonly body: Mesh;
   private readonly mat: MeshStandardMaterial;
   private readonly labelMat: MeshBasicMaterial;
   private readonly canvas = document.createElement('canvas');
@@ -110,7 +114,8 @@ class Bubble {
     this.tex.colorSpace = SRGBColorSpace;
     this.tex.anisotropy = 4;
     this.mat = new MeshStandardMaterial({ color: pal.body, roughness: 0.42, metalness: 0 });
-    this.group.add(new Mesh(geo, this.mat));
+    this.body = new Mesh(geo, this.mat);
+    this.group.add(this.body);
     this.labelMat = new MeshBasicMaterial({ map: this.tex, transparent: true, toneMapped: false });
     const label = new Mesh(new PlaneGeometry(W - 20, (W - 20) * (228 / 512)), this.labelMat);
     label.position.z = DEPTH / 2 + BEVEL + 0.6;
@@ -118,10 +123,23 @@ class Bubble {
     this.paint();
   }
 
+  /** Fade the whole bubble (body + text). Used for the background cloud so the main bubble stands out. */
+  setOpacity(o: number) {
+    this.mat.transparent = o < 1;
+    this.mat.opacity = o;
+    this.labelMat.opacity = o;
+    this.mat.needsUpdate = true;
+  }
+
   /** Clip this bubble (body + text) with the given planes. */
   clip(planes: Plane[]) {
     this.mat.clippingPlanes = planes;
     this.labelMat.clippingPlanes = planes;
+  }
+
+  /** Swap the body outline (tail left / right) without touching the text. */
+  setGeometry(geo: ExtrudeGeometry) {
+    this.body.geometry = geo;
   }
 
   set(msg: Msg, pal: Palette) {
@@ -142,9 +160,17 @@ class Bubble {
     ctx.font = '700 25px "Inter Variable", system-ui, sans-serif';
     ctx.fillText(this.msg.tag.toUpperCase(), 36, 52);
     ctx.fillStyle = this.pal.ink;
-    ctx.font = '600 38px "Inter Variable", system-ui, sans-serif';
-    const lines = wrapText(ctx, this.msg.msg, w - 72);
-    lines.forEach((l, i) => ctx.fillText(l, 36, 108 + i * 46));
+    // Shrink long messages until they fit in two lines (or the smallest size), so the bottom padding stays even.
+    let size = 38;
+    let lines: string[] = [];
+    for (const s of [38, 34, 31]) {
+      size = s;
+      ctx.font = `600 ${s}px "Inter Variable", system-ui, sans-serif`;
+      lines = wrapText(ctx, this.msg.msg, w - 72);
+      if (lines.length <= 2) break;
+    }
+    const top = 52 + size * 1.45;
+    lines.forEach((l, i) => ctx.fillText(l, 36, top + i * size * 1.2));
     this.tex.needsUpdate = true;
   }
 }
@@ -202,6 +228,7 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
   const cloud: Cloud[] = cloudMsgs.slice(0, SLOTS_WIDE.length).map((msg, i) => {
     const b = new Bubble(geos[i % 2] as ExtrudeGeometry, palettes[order[i % order.length] as keyof typeof palettes], msg);
     b.clip([cover]);
+    b.setOpacity(CLOUD_OPACITY);
     scene.add(b.group);
     return { b, baseScale: 0.5 + rand(i + 1) * 0.42, z: (rand(i + 7) - 0.5) * 300, phase: rand(i + 3) * 6.28, speed: 0.7 + rand(i + 5) * 0.8, bx: 0, by: 0 };
   });
@@ -212,11 +239,28 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
   const traveler = new Bubble(geos[0] as ExtrudeGeometry, palettes.blue, startMsg);
   scene.add(traveler.group);
 
+  // Reply: a second bubble (other speaker, mint, tail on the right) that pops in beside the traveler when its lane
+  // scrolls into view, as if the assistant just answered. Placed by a `[data-reply-anchor]` element.
+  const replyEl = document.querySelector<HTMLElement>('[data-reply-anchor]');
+  const reply = replyEl
+    ? new Bubble(geos[1] as ExtrudeGeometry, palettes.mint, { tag: replyEl.dataset.tag ?? '', msg: replyEl.dataset.msg ?? '' })
+    : null;
+  if (reply) { reply.group.visible = false; scene.add(reply.group); }
+  const replyAnchor = { x: 0, y: 0, scale: 1 };
+  let popStart = -1;
+  const easeOutBack = (t: number) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+
   // ---- Layout state -------------------------------------------------------
   let w = innerWidth, h = innerHeight, narrow = false, k = 1;
   let anchors: Anchor[] = [];
 
   function readAnchors() {
+    if (replyEl) {
+      const r = replyEl.getBoundingClientRect();
+      replyAnchor.x = r.left + r.width / 2 + scrollX;
+      replyAnchor.y = r.top + r.height / 2 + scrollY;
+      replyAnchor.scale = Number(replyEl.dataset.scale ?? 1);
+    }
     anchors = anchorEls.map((el) => {
       const r = el.getBoundingClientRect();
       return {
@@ -225,6 +269,8 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
         scale: Number(el.dataset.scale ?? 1),
         msg: { tag: el.dataset.tag ?? '', msg: el.dataset.msg ?? '' },
         stage: el.dataset.stage !== undefined ? Number(el.dataset.stage) : null,
+        hold: el.hasAttribute('data-hold'),
+        side: el.dataset.side === 'assistant' ? 'assistant' : 'customer',
       };
     });
   }
@@ -259,6 +305,18 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
 
   // ---- Frame --------------------------------------------------------------
   const tv = { x: 0, y: 0, s: 0, ready: false };
+  // Traveler look: customer = blue, tail left; assistant = mint, tail right. When the speaker changes it flips
+  // (squashes to a line, swaps outline, colour and text, then opens again).
+  interface Look { side: Side; msg: Msg }
+  let shown: Look | null = null;
+  let pendingLook: Look | null = null;
+  let flipT = 0;
+  let flipping = false;
+  const lookKey = (l: Look) => `${l.side}|${l.msg.tag}|${l.msg.msg}`;
+  const applyLook = (l: Look) => {
+    traveler.set(l.msg, l.side === 'assistant' ? palettes.mint : palettes.blue);
+    traveler.setGeometry(geos[l.side === 'assistant' ? 1 : 0] as ExtrudeGeometry);
+  };
   let stage = -2;
   let raf = 0;
   let last = performance.now();
@@ -274,7 +332,7 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
 
   function frame(now: number) {
     raf = 0;
-    const dt = Math.min((now - last) / 1000, 0.05);
+    const dt = clamp((now - last) / 1000, 0, 0.05); // rAF time can precede the kick's `last`; never go negative
     last = now;
     const sy = scrollY;
     const damp = 1 - Math.exp(-dt * 7);
@@ -306,21 +364,29 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
 
     // Traveler: follows the scroll line, steering x/scale between anchors.
     let travelerOn = false;
+    // True while the traveler is still flying to its target or flipping. Keeps the loop alive even when the
+    // bubble is off screen, so a fast scroll never leaves it stuck in an old colour or mid-flip.
+    let travelerBusy = false;
     const n = anchors.length;
     if (n > 0) {
-      const followY = sy + h * (narrow ? 0.78 : 0.5);
+      const followY = sy + h * (narrow ? 0.62 : 0.5);
       let i = -1;
       for (let j = 0; j < n; j++) if ((anchors[j] as Anchor).y <= followY) i = j;
       const a0 = anchors[0] as Anchor, aN = anchors[n - 1] as Anchor;
-      let x = a0.x, sc = a0.scale;
-      if (i >= n - 1) { x = aN.x; sc = aN.scale; }
+      // `data-hold` lanes pin the bubble near the lane centre (so it never sits on the text or chips around it);
+      // the funnel stages follow the scroll line smoothly.
+      const HOLD = 16;
+      const yOf = (an: Anchor) => (an.hold ? clamp(followY, an.y - HOLD, an.y + HOLD) : followY);
+      let x = a0.x, sc = a0.scale, yv = yOf(a0);
+      if (i >= n - 1) { x = aN.x; sc = aN.scale; yv = yOf(aN); }
       else if (i >= 0) {
         const a = anchors[i] as Anchor, b = anchors[i + 1] as Anchor;
-        const e = smooth(((followY - a.y) / (b.y - a.y) - 0.3) / 0.4); // hold in lane, cross quickly
+        const e = smooth(((followY - a.y) / (b.y - a.y) - 0.42) / 0.16); // hold in lane, cross fast in the gap between sections
         x = lerp(a.x, b.x, e);
         sc = lerp(a.scale, b.scale, e);
+        yv = lerp(yOf(a), yOf(b), e);
       }
-      const yPage = clamp(followY, a0.y, aN.y);
+      const yPage = clamp(yv, a0.y, aN.y);
       const targetX = x - scrollX - w / 2;
       const targetY = h / 2 - (yPage - sy);
       const targetS = narrow ? Math.max(sc, 0.85) * 0.66 * 1.05 : sc * k * 1.05;
@@ -331,24 +397,60 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
 
       const screenY = h / 2 - tv.y;
       travelerOn = screenY > -H && screenY < h + H;
+      travelerBusy = Math.abs(tv.x - targetX) > 0.5 || Math.abs(tv.y - targetY) > 0.5 || Math.abs(tv.s - targetS) > 0.002;
       const bob = Math.sin(now * 0.0012) * 6;
       traveler.group.visible = travelerOn;
       traveler.group.position.set(tv.x + pointer.x * 10, tv.y + bob, 90);
       traveler.group.rotation.set(Math.cos(now * 0.0009) * 0.08 - pointer.y * 0.1, Math.sin(now * 0.001) * 0.2 + pointer.x * 0.18, 0);
-      traveler.group.scale.setScalar(tv.s);
 
       // Message + funnel stage follow the last anchor passed.
       const cur = anchors[Math.max(i, 0)] as Anchor;
       let st = -1;
       for (let j = 0; j <= i; j++) { const s = (anchors[j] as Anchor).stage; if (s !== null) st = s; }
       setStage(st);
-      traveler.set(cur.msg, st >= 3 ? palettes.mint : palettes.blue);
+      const want: Look = { side: cur.side, msg: cur.msg };
+      if (!shown) { applyLook(want); shown = want; }
+      else if (lookKey(want) !== lookKey(shown)) {
+        if (want.side !== shown.side && !flipping) { flipping = true; flipT = 0; pendingLook = want; }
+        else if (flipping) { pendingLook = want; if (flipT >= 0.5) applyLook(want); }
+        else applyLook(want);
+        shown = want;
+      }
+      let fx = 1;
+      if (flipping) {
+        const before = flipT;
+        flipT += dt / 0.5;
+        if (before < 0.5 && flipT >= 0.5 && pendingLook) applyLook(pendingLook);
+        if (flipT >= 1) { flipping = false; flipT = 0; pendingLook = null; if (shown) applyLook(shown); }
+        else fx = Math.max(0.02, Math.abs(Math.cos(flipT * Math.PI)));
+      }
+      traveler.group.scale.set(tv.s * fx, tv.s, tv.s);
+      if (flipping) travelerBusy = true;
     } else {
       traveler.group.visible = false;
     }
 
+    // Reply: pops (overshoot) shortly after its lane enters the viewport, and resets once it has left.
+    let replyOn = false;
+    if (reply) {
+      const rsy = replyAnchor.y - sy;
+      const offscreen = rsy < -H || rsy > h + H;
+      if (offscreen) popStart = -1;
+      else if (popStart < 0 && rsy > h * 0.15 && rsy < h * 0.9) popStart = now + 450;
+      const p = popStart < 0 ? 0 : clamp((now - popStart) / 520, 0, 1);
+      reply.group.visible = p > 0 && !offscreen;
+      replyOn = !offscreen;
+      if (reply.group.visible) {
+        const rs = narrow ? Math.max(replyAnchor.scale, 0.85) * 0.66 * 1.05 : replyAnchor.scale * k * 1.05;
+        const bob = Math.sin(now * 0.0012 + 2) * 6;
+        reply.group.position.set(replyAnchor.x - scrollX - w / 2 + pointer.x * 10, h / 2 - rsy + bob, 90);
+        reply.group.rotation.set(Math.cos(now * 0.0009 + 1) * 0.08 - pointer.y * 0.1, Math.sin(now * 0.001 + 1) * 0.2 + pointer.x * 0.18, (1 - p) * 0.25);
+        reply.group.scale.setScalar(rs * easeOutBack(p));
+      }
+    }
+
     renderer.render(scene, camera);
-    if ((heroOn || travelerOn) && !document.hidden) raf = requestAnimationFrame(frame);
+    if ((heroOn || travelerOn || travelerBusy || replyOn) && !document.hidden) raf = requestAnimationFrame(frame);
   }
 
   function kick() {

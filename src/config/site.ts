@@ -8,12 +8,14 @@ export type Lang = 'en' | 'id';
 export const site = {
   name: 'Qustomer',
   domain: 'qustomer.id',
-  email: 'hello@qustomer.id', // TODO confirm contact address
+  email: 'team@qustomer.id',
   twitter: '@qustomer',
   ogImage: '/og.png', // TODO 1200x630, put in /public
   themeColor: '#1a6ffb', // logo blue
   defaultLang: 'en' as Lang,
   langStorageKey: 'qustomer-lang',
+  /** Google Search Console HTML-tag token. Set PUBLIC_GSC_VERIFICATION in the deploy env. */
+  gscVerification: (import.meta.env.PUBLIC_GSC_VERIFICATION as string | undefined) ?? '',
 } as const;
 
 const locales = { en, id } as const;

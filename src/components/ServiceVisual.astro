@@ -139,15 +139,3 @@ const funnelW = [100, 82, 64, 46, 30];
     @keyframes hl { 0%, 20% { border-color: var(--color-brand-600); box-shadow: var(--shadow-card); } 28%, 100% { border-color: var(--color-line); box-shadow: none; } }
   }
 </style>
-
-<script>
-  // Play each scene only while it is on screen. Without JS (or with reduced motion) the scene stays static.
-  const scenes = document.querySelectorAll<HTMLElement>('.sv');
-  if (scenes.length && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.target.toggleAttribute('data-in', e.isIntersecting)),
-      { threshold: 0.35 },
-    );
-    scenes.forEach((el) => io.observe(el));
-  }
-</script>

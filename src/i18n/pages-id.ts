@@ -278,13 +278,13 @@ export const pagesId: PagesBundle = {
         {
           h2: '1. Siapa kami',
           paras: [
-            'Qustomer menyediakan layanan yang menyiapkan dan menjalankan percakapan pelanggan untuk bisnis. Layanan ini dioperasikan oleh [TODO: nama badan hukum dan alamat terdaftar]. Untuk pertanyaan privasi, hubungi [TODO: nama kontak data] di hello@qustomer.id.',
+            'Qustomer menyediakan layanan yang menyiapkan dan menjalankan percakapan pelanggan untuk bisnis. Layanan ini dioperasikan oleh PT Pilar Antar Informasi, Jaya Harmoni JH4-3, Sidoarjo, Indonesia. Untuk pertanyaan privasi, hubungi Akbar Putra, Founder di team@qustomer.id.',
           ],
         },
         {
           h2: '2. Data yang kami kumpulkan di website ini',
           paras: [
-            'Website ini tidak memakai cookie analitik atau iklan. Halaman booking memuat widget penjadwalan dari Cal.com. Saat Anda menjadwalkan call, data yang Anda isi (seperti nama, email, dan jawaban) diproses oleh Cal.com dan diteruskan kepada kami, dan kebijakan privasi Cal.com sendiri berlaku untuk widget tersebut. Jika Anda mengirim email kepada kami, kami menerima alamat email Anda dan apa pun yang Anda sampaikan. Kami memakainya hanya untuk membalas dan membahas kemungkinan bekerja sama, berdasarkan kepentingan sah kami untuk menjawab Anda atau persetujuan Anda jika hukum mensyaratkannya.',
+            'Website ini tidak memakai cookie iklan. Kami memakai Vercel Web Analytics untuk menghitung kunjungan (halaman yang dilihat, asal kunjungan, negara, jenis perangkat). Layanan ini tidak memasang cookie, tidak melacak Anda lintas situs, dan tidak menyimpan alamat IP Anda. Kami juga memakai Google Search Console, yang melaporkan tampilan halaman kami di Google Search dan tidak berjalan di browser Anda. Halaman booking memuat widget penjadwalan dari Cal.com. Saat Anda menjadwalkan call, data yang Anda isi (seperti nama, email, dan jawaban) diproses oleh Cal.com dan diteruskan kepada kami, dan kebijakan privasi Cal.com sendiri berlaku untuk widget tersebut. Jika Anda mengirim email kepada kami, kami menerima alamat email Anda dan apa pun yang Anda sampaikan. Kami memakainya hanya untuk membalas dan membahas kemungkinan bekerja sama, berdasarkan kepentingan sah kami untuk menjawab Anda atau persetujuan Anda jika hukum mensyaratkannya.',
           ],
         },
         {
@@ -333,7 +333,7 @@ export const pagesId: PagesBundle = {
         {
           h2: '10. Berapa lama kami menyimpannya',
           paras: [
-            'Kami menyimpan data hanya selama diperlukan untuk menjalankan layanan, sesuai instruksi klien, dan sebagaimana disyaratkan hukum. Setelah itu data dihapus atau dianonimkan. [TODO: konfirmasi jangka waktu penyimpanan.]',
+            'Kami menyimpan data hanya selama diperlukan untuk menjalankan layanan, sesuai instruksi klien, dan sebagaimana disyaratkan hukum. Setelah itu data dihapus atau dianonimkan. Data yang disimpan berdasarkan kontrak klien disimpan paling lama 24 bulan setelah kontrak berakhir.',
           ],
         },
         {
@@ -351,7 +351,7 @@ export const pagesId: PagesBundle = {
         {
           h2: '13. Perubahan dan kontak',
           paras: [
-            'Kami dapat memperbarui kebijakan ini dan akan mengubah tanggal di atas saat melakukannya. Pertanyaan: hello@qustomer.id.',
+            'Kami dapat memperbarui kebijakan ini dan akan mengubah tanggal di atas saat melakukannya. Pertanyaan: team@qustomer.id.',
           ],
         },
       ],
@@ -420,13 +420,13 @@ export const pagesId: PagesBundle = {
         {
           h2: '9. Hukum yang berlaku dan sengketa',
           paras: [
-            'Syarat ini tunduk pada hukum Indonesia. Kami berupaya menyelesaikan sengketa secara musyawarah lebih dulu. Jika gagal, sengketa diselesaikan di [TODO: pengadilan atau arbitrase BANI].',
+            'Syarat ini tunduk pada hukum Indonesia. Kami berupaya menyelesaikan sengketa secara musyawarah lebih dulu. Jika gagal, sengketa diselesaikan di Pengadilan Negeri Sidoarjo.',
           ],
         },
         {
           h2: '10. Kontak',
           paras: [
-            'Qustomer, dioperasikan oleh [TODO: nama badan hukum dan alamat terdaftar]. Pertanyaan: hello@qustomer.id.',
+            'Qustomer, dioperasikan oleh PT Pilar Antar Informasi, Jaya Harmoni JH4-3, Sidoarjo, Indonesia. Pertanyaan: team@qustomer.id.',
           ],
         },
       ],
