@@ -30,11 +30,22 @@ const p = t.process;
     <!-- Who does what: two halves paired with a "+". -->
     <div class="mt-24 sm:mt-32">
       <h3 class="font-display text-3xl">{p.rolesTitle}</h3>
-      <div class="relative mt-12 grid gap-x-16 gap-y-14 md:grid-cols-2">
+      <div class="mt-12 rounded-3xl border border-line p-8 sm:p-12">
+      <div class="relative grid gap-x-16 gap-y-14 md:grid-cols-2">
         {[p.we, p.you].map((col, i) => (
           <div class={i === 0 ? 'md:pr-8' : 'md:pl-8'}>
             <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
-              <span class={`inline-flex rounded-full px-5 py-2 font-display text-xl ${i === 0 ? 'bg-ink text-white' : 'bg-surface-alt text-ink'}`}>{col.t}</span>
+              <span class={`inline-flex items-center gap-2.5 rounded-full py-2 pr-5 pl-4 font-display text-xl ${i === 0 ? 'bg-ink text-white' : 'bg-surface-alt text-ink'}`}>
+                {i === 0 ? (
+                  <img src="/favicon.svg" alt="" width="28" height="28" class="-my-1 -ml-1 size-7" />
+                ) : (
+                  <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
+                  </svg>
+                )}
+                {col.t}
+              </span>
               <span class="text-ink-muted">{col.sub}</span>
             </div>
             <ul class="mt-10 space-y-6">
@@ -49,7 +60,8 @@ const p = t.process;
             </ul>
           </div>
         ))}
-        <span class="absolute top-1/2 left-1/2 hidden size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-surface-alt font-display text-xl md:grid" aria-hidden="true">+</span>
+        <span class="absolute inset-y-0 left-1/2 hidden w-px bg-line md:block" aria-hidden="true"></span>
+      </div>
       </div>
     </div>
 

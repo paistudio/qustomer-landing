@@ -56,7 +56,7 @@ Services: whatsapp-lead-management, lead-follow-up, appointment-booking, whatsap
 
 ## Open TODOs
 - Contact email is `team@qustomer.id` (`site.email` in `src/config/site.ts`); confirm the mailbox exists. Add a real contact flow.
-- Add `public/og.png` (1200×630); set `PUBLIC_SITE_URL` in deploy env.
+- `public/og.png` (1200×630) is done. `PUBLIC_SITE_URL` is set in Vercel production (`https://www.qustomer.id`).
 - Add `/privacy` and `/terms` (both languages) and link them in the footer.
 - Confirm final name and domain.
 - Replace placeholder FAQ answers after the pilot; add real proof when it exists.

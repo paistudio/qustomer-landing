@@ -12,7 +12,7 @@ export const site = {
   appUrl: 'https://app.qustomer.id/',
   email: 'team@qustomer.id',
   twitter: '@qustomer',
-  ogImage: '/og.png', // TODO 1200x630, put in /public
+  ogImage: '/og.png', // 1200x630, in /public
   themeColor: '#1a6ffb', // logo blue
   defaultLang: 'en' as Lang,
   langStorageKey: 'qustomer-lang',

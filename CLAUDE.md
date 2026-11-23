@@ -46,5 +46,4 @@ Use `caveman` skill for chat (terse, no filler). Code, page copy, docs, commits 
 
 ## Before launch (TODO)
 - Set `PUBLIC_SITE_URL` in deploy env
-- Add `public/og.png` (1200×630)
 - Replace placeholder copy in `site.ts` + sections; add `/privacy`, `/terms`
