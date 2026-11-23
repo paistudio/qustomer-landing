@@ -30,8 +30,12 @@ const orgLd = {
   name: site.name,
   url: Astro.site?.href,
   logo: new URL('/favicon.svg', Astro.site).href,
+  email: site.email,
+  description: getCopy('en').meta.description,
+  contactPoint: { '@type': 'ContactPoint', contactType: 'sales', email: site.email, availableLanguage: ['English', 'Indonesian'] },
 };
-const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+const siteLd = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: Astro.site?.href, inLanguage: ['en', 'id'] };
+const ld = [orgLd, siteLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
