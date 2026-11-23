@@ -30,7 +30,7 @@ Tokens live in `src/styles/global.css` (`@theme`). This file is the spec; CSS is
 | `surface-alt` | alternating sections, footer (warm travertine tint) | `oklch(0.975 0.008 82)` |
 | `line` | borders, dividers | `oklch(0.92 0.012 82)` |
 
-The logo and favicon still carry the original blue → mint gradient (assets, not tokens).
+Logo, icon and favicon use the matching gradient (Cornflower #5C88CD → Citron #F1C436); assets in `src/assets/` and `public/favicon.svg`.
 
 Status colors: use Tailwind `emerald-600` (success), `amber-600` (warning), `rose-600` (error) only for states, never decoration.
 
