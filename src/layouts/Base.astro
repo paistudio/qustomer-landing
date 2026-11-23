@@ -8,6 +8,7 @@ import SEO, { type Props as SEOProps } from '@/components/SEO.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { getCopy, site } from '@/config/site';
+import { inject } from '@vercel/analytics';
 
 interface Props extends SEOProps {
   /** Redirect Indonesian browsers from `/` to `/id` (unless the visitor chose a language). */
@@ -20,6 +21,9 @@ const t = getCopy(seo.lang);
 
 // Tiny inline redirect, runs before paint. Only `/` redirects; `/id` never redirects away.
 const detectScript = `(function(){try{if(localStorage.getItem('${site.langStorageKey}'))return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';if(/^(id|in)(-|$)/i.test(l))location.replace('/id')}catch(e){}})();`;
+
+// Initialize Vercel Web Analytics
+inject();
 ---
 <!doctype html>
 <html lang={seo.lang}>
