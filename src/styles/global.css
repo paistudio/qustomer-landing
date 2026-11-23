@@ -6,22 +6,28 @@
   --font-display: 'Cal Sans', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Brand blue — from the logo (#1A6FFB ≈ brand-500) */
-  --color-brand-50: oklch(0.97 0.02 260);
-  --color-brand-100: oklch(0.93 0.05 260);
-  --color-brand-500: oklch(0.6 0.21 260);
-  --color-brand-600: oklch(0.52 0.22 260);
-  --color-brand-700: oklch(0.45 0.2 260);
+  /* EXPERIMENT palette. Primary: Cornflower String #5C88CD = brand-500. brand-600/700 are darker steps so white text
+     passes AA (brand-600 on white 5.1:1). */
+  --color-brand-50: oklch(0.97 0.02 259);
+  --color-brand-100: oklch(0.93 0.04 259);
+  --color-brand-500: oklch(0.625 0.116 259.1);
+  --color-brand-600: oklch(0.54 0.125 259);
+  --color-brand-700: oklch(0.46 0.12 259);
 
-  /* Brand mint — logo gradient end (#AEFFA8 ≈ mint-300). Fills and highlights only, never text on white. */
-  --color-mint-100: oklch(0.97 0.05 142);
-  --color-mint-300: oklch(0.93 0.14 142);
+  /* Secondary: Mellow Citron #F1C436 (token names kept from the mint palette: "mint" now means the yellow).
+     Fills and highlights only, never text on white. */
+  --color-mint-100: oklch(0.97 0.04 90);
+  --color-mint-300: oklch(0.837 0.156 90);
+
+  /* Accent and decoration: Warm Travertine #DDD4C4 = sand-300. */
+  --color-sand-100: oklch(0.97 0.01 82);
+  --color-sand-300: oklch(0.873 0.024 82.1);
 
   --color-ink: oklch(0.18 0.01 262);        /* primary text */
   --color-ink-muted: oklch(0.48 0.01 262); /* secondary text, >= 4.5:1 on white */
   --color-surface: oklch(1 0 0);
-  --color-surface-alt: oklch(0.975 0.004 262);
-  --color-line: oklch(0.92 0.004 262);
+  --color-surface-alt: oklch(0.975 0.008 82); /* warm travertine tint */
+  --color-line: oklch(0.92 0.012 82);
 
   --radius-card: 1.25rem;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.08);

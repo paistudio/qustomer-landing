@@ -13,7 +13,7 @@ export const site = {
   email: 'team@qustomer.id',
   twitter: '@qustomer',
   ogImage: '/og.png', // 1200x630, in /public
-  themeColor: '#1a6ffb', // logo blue
+  themeColor: '#5C88CD', // brand primary (experiment palette)
   defaultLang: 'en' as Lang,
   langStorageKey: 'qustomer-lang',
   /** Google Search Console HTML-tag token. Set PUBLIC_GSC_VERIFICATION in the deploy env. */

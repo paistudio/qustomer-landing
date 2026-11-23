@@ -296,7 +296,7 @@ export async function mountScene(canvas: HTMLCanvasElement): Promise<void> {
     blue: { body: tokenColor('--color-brand-500'), ink: surface.getStyle(), tag: tokenColor('--color-brand-100').getStyle() },
     white: { body: surface, ink: inkCss, tag: tokenColor('--color-brand-600').getStyle() },
     mint: { body: tokenColor('--color-mint-300'), ink: inkCss, tag: tokenColor('--color-ink-muted').getStyle() },
-    pale: { body: tokenColor('--color-brand-100'), ink: inkCss, tag: tokenColor('--color-brand-600').getStyle() },
+    pale: { body: tokenColor('--color-sand-300'), ink: inkCss, tag: tokenColor('--color-ink-muted').getStyle() },
   };
   const order = ['white', 'blue', 'pale', 'mint', 'white', 'pale', 'blue', 'white', 'mint', 'pale', 'white', 'blue'] as const;
 

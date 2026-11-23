@@ -11,20 +11,26 @@ Tokens live in `src/styles/global.css` (`@theme`). This file is the spec; CSS is
 4. **Accessible by default** — WCAG 2.2 AA minimum.
 
 ## Color
+**Experiment palette** (branch `experiment/palette-cornflower`; `main` keeps the original logo blue + mint).
+
 | Token | Use | Value |
 |---|---|---|
-| `brand-50` | icon chips, subtle tint | `oklch(0.97 0.02 260)` |
-| `brand-100` | tints, text on brand bg | `oklch(0.93 0.05 260)` |
-| `brand-500` | logo blue, illustrations, 3D bubbles | `oklch(0.6 0.21 260)` ≈ #1a6ffb |
-| `brand-600` | primary buttons, links, eyebrow (white text ≥ 4.5:1) | `oklch(0.52 0.22 260)` |
-| `brand-700` | hover/pressed | `oklch(0.45 0.2 260)` |
-| `mint-100` | soft panel behind the assistant lane | `oklch(0.97 0.05 142)` |
-| `mint-300` | logo gradient end: fills/highlights only, never text on white | `oklch(0.93 0.14 142)` ≈ #aeffa8 |
-| `ink` | headings, body | `oklch(0.2 0.05 262)` |
-| `ink-muted` | secondary text (≥ 4.5:1 on white) | `oklch(0.45 0.03 262)` |
+| `brand-50` | icon chips, subtle tint | `oklch(0.97 0.02 259)` |
+| `brand-100` | tints, text on brand bg | `oklch(0.93 0.04 259)` |
+| `brand-500` | primary **Cornflower String #5C88CD**, illustrations, 3D bubbles | `oklch(0.625 0.116 259.1)` |
+| `brand-600` | primary buttons, links, eyebrow (white text 5.1:1) | `oklch(0.54 0.125 259)` ≈ #416EB4 |
+| `brand-700` | hover/pressed | `oklch(0.46 0.12 259)` ≈ #2B569B |
+| `mint-100` | soft panel behind the assistant lane (yellow tint; name kept from the old palette) | `oklch(0.97 0.04 90)` |
+| `mint-300` | secondary **Mellow Citron #F1C436**: fills and highlights only, never text on white | `oklch(0.837 0.156 90)` |
+| `sand-100` | decoration tint | `oklch(0.97 0.01 82)` |
+| `sand-300` | accent / decoration **Warm Travertine #DDD4C4** (3D "pale" bubbles) | `oklch(0.873 0.024 82.1)` |
+| `ink` | headings, body | `oklch(0.18 0.01 262)` |
+| `ink-muted` | secondary text (≥ 4.5:1 on white) | `oklch(0.48 0.01 262)` |
 | `surface` | page bg | white |
-| `surface-alt` | alternating sections, footer | `oklch(0.98 0.008 260)` |
-| `line` | borders, dividers | `oklch(0.92 0.015 260)` |
+| `surface-alt` | alternating sections, footer (warm travertine tint) | `oklch(0.975 0.008 82)` |
+| `line` | borders, dividers | `oklch(0.92 0.012 82)` |
+
+The logo and favicon still carry the original blue → mint gradient (assets, not tokens).
 
 Status colors: use Tailwind `emerald-600` (success), `amber-600` (warning), `rose-600` (error) only for states, never decoration.
 
